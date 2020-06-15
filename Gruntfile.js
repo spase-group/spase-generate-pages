@@ -1,18 +1,24 @@
 /*
- * assemble-examples <https://github.com/assemble/assemble-examples>
+ * Build SPASE.info static web site from XML 
  *
- * Copyright (c) 2014 Jon Schlinkert, Brian Woodward, contributors.
- * Licensed under the MIT license.
+ * Copyright (c) 2020. Todd King and Regents of the University of California
+ * Licensed under the Apache 2.0 license.
  */
 
  /*
  * Required modules
  *
- * npm install grunt-contrib-clean --save
- * npm install grunt-contrib-copy --save
+ * npm install grunt-convert --save-dev
+ * npm install grunt-xsltproc --save-dev
+ * npm install grunt-contrib-clean --save-dev
+ * npm install grunt-contrib-copy --save-dev
  *
- * To build
+ * To build everything
  *     grunt
+ * To build the home page
+ *     grunt homepage
+ * To build listing (index) page for each folder
+ *     grunt listing
  */
 
 module.exports = function(grunt) {
