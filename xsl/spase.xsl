@@ -28,12 +28,11 @@
 }
 
 body {
-	background-color: #eaf5e9;/*#277bc0;/*#d3d3f9; */
+	background-color: #f0f0f0; // #eaf5e9; #277bc0; #d3d3f9;
 	color: black;
 	font-family: Verdana, Arial, sans-serif; 
 	font-size:12px; 
 	line-height: 1.2;
-	padding: 10px 3% 10px 3%;
 }
  
 h1,h2,h3,h4,h5,h6 {
@@ -108,6 +107,30 @@ th {
 }
 
 h1.detail {
+}
+
+.header {
+	width:100%;
+	padding: 1em 10px 1em 10px;
+	color: #fff;
+	background: #5e87b0;
+	font-weight: bold;
+	text-shadow: 0 /*{b-bar-shadow-x}*/ 1px /*{b-bar-shadow-y}*/ 1px /*{b-bar-shadow-radius}*/ #3e6790 /*{b-bar-shadow-color}*/;
+	text-align: center;
+	font-size: 16px;
+	display: block;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	outline: 0 !important;
+}
+
+.inset {
+	margin-left: 22%;
+}
+
+.page {
+	padding: 10px 3% 10px 3%;
 }
 
 div.product {
@@ -231,10 +254,14 @@ a.xml-logo:hover {
 	</head>
 	<body>
 		<div><a id="top"></a></div>
-		<div class="brand">Provided by: <a target="blank" href="http://spase.info">SPASE.info</a></div>
+		<div class="header">
+			<div class="middle">SPASE.info</div>
+		</div> <!-- /header -->
+		<div class="page">
        <xsl:apply-templates select="Package"/>	<!-- create table of content if present -->
        <xsl:apply-templates select="./*/sp:Spase"/> <!-- Process each description in a Package -->
        <xsl:apply-templates select="sp:Spase"/> <!-- Process a single description -->
+	   </div>
    </body>
    </html>
 </xsl:template>
@@ -253,19 +280,22 @@ a.xml-logo:hover {
 <xsl:template match="sp:Spase">
 	<div class="spase">
 		<div class="container">
+		<xsl:variable name="inset">
+		   <xsl:if test="./*/sp:AccessInformation">inset</xsl:if>
+		</xsl:variable>
 		<xsl:if test="./*/sp:AccessInformation">
-		<div class="access">
-			<p class="box-title">Data Access</p>
-			<ul class="list">
-			<xsl:for-each select="./*/sp:AccessInformation">
-				<xsl:for-each select="./sp:AccessURL">
-					<li class="list"><a target="_blank" href="{./sp:URL}"><xsl:if test="./sp:Style"><xsl:value-of select="./sp:Style" />: </xsl:if><xsl:value-of select="./sp:Name" /></a></li>
+			<div class="access">
+				<p class="box-title">Data Access</p>
+				<ul class="list">
+				<xsl:for-each select="./*/sp:AccessInformation">
+					<xsl:for-each select="./sp:AccessURL">
+						<li class="list"><a target="_blank" href="{./sp:URL}"><xsl:if test="./sp:Style"><xsl:value-of select="./sp:Style" />: </xsl:if><xsl:value-of select="./sp:Name" /></a></li>
+					</xsl:for-each>
 				</xsl:for-each>
-			</xsl:for-each>
-			</ul>
-		</div>
+				</ul>
+			</div>
 		</xsl:if>
-		<div class="citation">
+		<div class="citation {$inset}">
 			<h1><a name="{./*/sp:ResourceID}"><xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" /></a></h1>
 			<xsl:if test="./*/sp:ResourceHeader/sp:PublicationInfo">
 			<p class="author"><xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />
@@ -284,7 +314,7 @@ a.xml-logo:hover {
 			<p class="right">
 				<xsl:if test="name(..) = 'Package'"><a href="#top">top</a> | </xsl:if>
 				<xsl:variable name="fileName">
-					<xsl:call-template name="fileName">
+					<xsl:call-template name="getFileName">
 						<xsl:with-param name="path" select="./*/sp:ResourceID" />
 					</xsl:call-template>  
 				</xsl:variable>				
@@ -397,11 +427,11 @@ Call with the following:
 		<xsl:with-param name="path" select="YourValue" />
 	</xsl:call-template>  
 -->
-<xsl:template name="fileName">
+<xsl:template name="getFileName">
   <xsl:param name="path" />
   <xsl:choose>
     <xsl:when test="normalize-space(substring-after($path,'/'))">
-      <xsl:call-template name="fileName">
+      <xsl:call-template name="getFileName">
         <xsl:with-param name="path" select="substring-after($path,'/')" />
       </xsl:call-template>  
     </xsl:when>

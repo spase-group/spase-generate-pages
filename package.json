@@ -1,5 +1,5 @@
 {
-  "name": "transform",
+  "name": "spase-info-node",
   "version": "1.0.0",
   "description": "",
   "main": "Gruntfile.js",
@@ -8,11 +8,14 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.1.0",
+    "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-convert": "^0.1.12",
-    "grunt-folder-list": "^1.1.0",
-    "grunt-writefile": "^0.1.4",
-    "grunt-xsltproc": "^0.6.1"
+    "grunt-xsltproc": "^0.6.1",
+    "handlebars": "^4.7.6",
+    "xsltproc": "0.0.4"
   }
 }

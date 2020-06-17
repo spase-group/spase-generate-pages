@@ -50,12 +50,6 @@ module.exports = function(grunt) {
 			   files: [
 				   {
 					  expand: true,
-					  cwd: '<%= site.src %>', // set 'Current Working Directory'
-					  src: '**', // Read everything inside the cwd
-					  dest: '<%= site.dest %>/', // Destination folder
-				   },
-				   {
-					  expand: true,
 					  cwd: '<%= site.metadata %>', // set 'Current Working Directory'
 					  src: '**', // Read everything inside the cwd
 					  dest: '<%= site.dest %>/', // Destination folder
@@ -73,9 +67,10 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					cwd: '<%= site.metadata %>',
+					extDot: 'last',
 					src: '**/*.xml',
 					dest: '<%= site.dest %>',
-					ext: '.html'
+					ext: '.html',
 				}]
 			}
 		},
@@ -88,10 +83,11 @@ module.exports = function(grunt) {
 			xml2json: {
 				files: [{
 					expand: true,
-					cwd: '<%= site.src %>',
+					cwd: '<%= site.metadata %>',
+					extDot: 'last',
 					src: '**/*.xml',
 					dest: '<%= site.dest %>',
-					ext: '.json'
+					ext: '.json',
 				}]
 			}
 		},
@@ -114,10 +110,11 @@ module.exports = function(grunt) {
 			homepage: {
 				options: {
 					template: '<%= site.homepage %>',
+					exclude: ['.git', 'README.md', 'LICENSE']
 				},
 				expand: true,
 				cwd: '<%= site.dest %>',
-				src: '.',
+				src: ['.'],
 				dest: '<%= site.dest %>/'
 			}
 
@@ -130,7 +127,9 @@ module.exports = function(grunt) {
 	});
 
 	// Define tasks. Task called "default" runs with no command line options
-	grunt.registerTask('default', ['xsltproc', 'convert', 'index_maker']);
+	// To "index_maker" before "convert" so that index does not include extra files.
+	grunt.registerTask('default', ['xsltproc', 'index_maker', 'copy', 'convert']);
+	grunt.registerTask('clean', ['clean']);
 	grunt.registerTask('listing', ['index_maker:index']);
 	grunt.registerTask('homepage', ['index_maker:homepage']);
 };

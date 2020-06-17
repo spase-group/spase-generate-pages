@@ -1,9 +1,11 @@
 /*
- * grunt-folder-list
+ * index_maker
  * https://github.com/roughcoder/grunt-folder-list
  *
- * Copyright (c) 2014 Neil Barton
- * Licensed under the MIT license.
+ * Generates an index of folder contents and write the index in the folder.
+ *
+ * Copyright (c) 2020 Todd King
+ * Licensed under the APache 2.0 license.
  */
 
 'use strict';
@@ -17,19 +19,6 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
-	// Function to return the file size back in MB
-	function getFilesizeInBytes(filename) {
-		var stats = fs.statSync(filename)
-		var fileSizeInBytes = stats["size"]
-		return fileSizeInBytes / 1000000.0
-	}
-
-	// Function to get the extension a filename
-	function getExtension(filename) {
-		var ext = path.extname(filename || '').split('.');
-		return ext[ext.length - 1];
-	}
-	
 	// Function to get template parser
 	function getTemplateParser (options) {
 		var parser = handlebars.create(); // each task has its own instance
@@ -43,10 +32,19 @@ module.exports = function (grunt) {
 			}
 		}
 
+		parser.registerHelper('clean', function(param1, options) {
+			return param1.replace(/.html$/, "");
+		});
+		
+		parser.registerHelper('target', function(param1, options) {
+			if(param1.endsWith('.html')) return('_blank');
+			return('_self');
+		});
+		
 		return parser;
 	}
 	
-    grunt.registerMultiTask('index_maker', 'Generates an index of folder contents.', function () {
+    grunt.registerMultiTask('index_maker', 'Generates an index of folder contents and write the index in the folder.', function () {
         // Merge task-specific and/or target-specific options with these defaults.
         var options = this.options({
             files: true,
@@ -58,8 +56,6 @@ module.exports = function (grunt) {
        });
 	   var processed = 0;
 	   
-		grunt.log.writeln('Compiling template file: ' + chalk.cyan(options.template));
-		
 	   var parser = getTemplateParser(options);
 
 		// Check the src files before using them
@@ -68,7 +64,7 @@ module.exports = function (grunt) {
 			return false;
 		}
 
-		grunt.log.writeln('Compiling template file: ' + chalk.cyan(options.template));
+		grunt.verbose.writeln('Compiling template file: ' + chalk.cyan(options.template));
 
 		var template = parser.compile(grunt.file.read(options.template));
 
@@ -84,7 +80,10 @@ module.exports = function (grunt) {
 			// grunt.verbose.writeln(JSON.stringify(f, null, 3));
 
             f.src.map(function (filename) {
-
+				// Check if file name is to excluded. Grunt should do this but in some cases it's not perfect.
+				var testname = path.basename(filename);
+				if(options.exclude.includes(testname)) return;
+				
                 // Manage Directories
                 if (grunt.file.isDir(filename)) {
                     // Create directory object
@@ -93,14 +92,16 @@ module.exports = function (grunt) {
 					var dirList = [];
 					
 					// var entries = grunt.file.expand({filter: function(src) { return (src != options.listing); } }, path.join(filename, "*") );	
+					grunt.verbose.writeln("Processing " + filename);
 					var parentFolder = path.basename(filename);					
 					var entries = fs.readdirSync(filename);
-					grunt.verbose.writeln("entries: " + entries);
 					entries.map(function(entryName) {
 						if(entryName == options.listing) return;	// Don't include generated file in listing
+						if(options.exclude.includes(entryName)) return;	// Don't include the excluded files
+						
 						var pathname = path.join(filename, entryName);
 						var stat = fs.statSync(pathname);
-						// grunt.verbose.writeln(JSON.stringify(stat, null, 3));
+
 						var tempInfo = {
 							basename: path.basename(entryName),
 							mtime: stat.mtime,
@@ -117,11 +118,9 @@ module.exports = function (grunt) {
 					info = info.concat(dirList, fileList);
 					
 					// Write generated file
-					grunt.log.writeln("destination: " + f.dest);
 					var dest = f.dest + "/" + options.listing;
 
-					grunt.verbose.writeln("Writing: " + dest);
-					grunt.verbose.writeln('Info: ');
+					// grunt.verbose.writeln("Writing: " + dest);
 					var contents = {
 						title: options.title,
 						parent: parentFolder,
@@ -129,64 +128,16 @@ module.exports = function (grunt) {
 						listing: options.listing,
 						paths: info
 					}
-					grunt.verbose.writeln(JSON.stringify(contents, null, 3));
 					
 					grunt.file.write(dest, template(contents), {
 						encoding: options.encoding
 					});
 				}
 			});
-			
-/*
-            // Output variables
-            var structure = [],
-                tempInfo = {},
-                format = getExtension(f.dest);
-
-            // Parse files
-
-                // Manage Files
-                if (grunt.file.isFile(cwd + filename)) {
-                    // Create file object
-                    tempInfo = {
-                        location: filename,
-                        filename: path.basename(cwd + filename),
-                        type: 'file',
-                        size: getFilesizeInBytes(cwd + filename),
-                        depth: filename.split('/').length - 1,
-                        filetype: getExtension(cwd + filename)
-                    }
-                    if (options.files) {
-                        structure.push(tempInfo);
-                    }
-                }
-            });
-*/
-
-
-			/*
-			grunt.file.write(dest, tpl(data), {
-				encoding: options.encoding
-			});
-			*/
-			
+					
 			processed = (processed + 1);
-/*
-			// Convert structure object to JSON
-            var contents = JSON.stringify(structure);
-
-            // Check if yml
-            if (format === 'yml' || format === 'ymal') {
-                contents = to.format.yaml.stringify(contents);
-            }
-
-            // Write out the file
-            grunt.file.write(f.dest, contents);
-
-            // Print a success message.
-            grunt.log.writeln('File "' + f.dest + '" created.');
-*/
         });
+		grunt.verbose.writeln("Processed " + processed + (processed == 1) ? "file." : "files.");
     });
 
 };
