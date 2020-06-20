@@ -13,6 +13,7 @@ var fs = require("fs"); //Load the filesystem module
 var path = require("path"); // Path tools
 var handlebars = require('handlebars');
 var chalk = require('chalk');
+var minimatch = require('minimatch');
 
 module.exports = function (grunt) {
 
@@ -52,7 +53,8 @@ module.exports = function (grunt) {
             preserveExtension: false, // ignored if path is expanded
             encoding: grunt.file.defaultEncoding,
 			template: 'template.hbs',
-			listing: 'index.html'
+			listing: 'index.html',
+			exclude: []
        });
 	   var processed = 0;
 	   
@@ -76,13 +78,15 @@ module.exports = function (grunt) {
             if (f.cwd) {
                 cwd = f.cwd;
             }
-			
 			// grunt.verbose.writeln(JSON.stringify(f, null, 3));
 
             f.src.map(function (filename) {
 				// Check if file name is to excluded. Grunt should do this but in some cases it's not perfect.
-				var testname = path.basename(filename);
-				if(options.exclude.includes(testname)) return;
+				var entryName = path.basename(filename);
+				// if(options.exclude.includes(testname)) return;
+				for(let i =0; i < options.exclude.length; i++) {
+					if( minimatch(entryName, options.exclude[i]) ) return;
+				}
 				
                 // Manage Directories
                 if (grunt.file.isDir(filename)) {
@@ -97,7 +101,10 @@ module.exports = function (grunt) {
 					var entries = fs.readdirSync(filename);
 					entries.map(function(entryName) {
 						if(entryName == options.listing) return;	// Don't include generated file in listing
-						if(options.exclude.includes(entryName)) return;	// Don't include the excluded files
+						// if(options.exclude.includes(entryName)) return;	// Don't include the excluded files
+						for(let i =0; i < options.exclude.length; i++) {
+							if( minimatch(entryName, options.exclude[i]) ) return;
+						}
 						
 						var pathname = path.join(filename, entryName);
 						var stat = fs.statSync(pathname);

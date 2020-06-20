@@ -12,6 +12,30 @@
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
       <title>SPASE Resource Description</title>
+	  <!-- Data discovery metadata -->
+      <script type="application/ld+json">{
+		"@context": "https://schema.org/",
+		"@type" :"Dataset",
+		"name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />",
+     <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:DOI">
+		"doi": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:DOI" />",
+		"publication": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />, <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />", <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublishedBy" /> (<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />)",
+		"publisher  ":{
+		   "@type": "Organization",
+           "url": "https://www.esa.int/",
+           "name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />"
+		},
+	</xsl:if>
+ 		"description": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Description" />",
+		"abstract": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Description" />",
+		"temporalCoverage": "1990.10.06  2009.30.06",
+		"keywords": [ <xsl:for-each select="./sp:Spase/*/sp:Keyword"> "<xsl:value-of select="." />"<xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if></xsl:for-each> ],
+        "audience":{
+            "@type": "Audience",
+            "audienceType": ["Space Physicist", "Space Community", "Data Scientists", "Machine Learning Users"]
+        }
+	  }
+	  </script>
 	  <!-- CSS -->
 	  <style>
 /* http://spase-group.org/tools/xmlviewer */
@@ -220,9 +244,10 @@ div.brand {
 	text-align: right;
 }
 
-div.container {
+div.abstract {
 	display: table;
 	position: relative;
+	width: 100%;
 }
 
 div.citation {
@@ -279,7 +304,7 @@ a.xml-logo:hover {
 	  
 <xsl:template match="sp:Spase">
 	<div class="spase">
-		<div class="container">
+		<div class="abstract">
 		<xsl:variable name="inset">
 		   <xsl:if test="./*/sp:AccessInformation">inset</xsl:if>
 		</xsl:variable>
@@ -310,7 +335,7 @@ a.xml-logo:hover {
 		</div>
 		</div>
 		
-		<div>
+		<div>	<!-- formats -->
 			<p class="right">
 				<xsl:if test="name(..) = 'Package'"><a href="#top">top</a> | </xsl:if>
 				<xsl:variable name="fileName">
@@ -320,9 +345,10 @@ a.xml-logo:hover {
 				</xsl:variable>				
 				<a target="_blank" href="{$fileName}.xml">View XML</a> | <a target="_blank" href="{$fileName}.json">View JSON</a>
 			</p>
-	   <h1 class="detail">Details</h1>
+			<h1 class="detail">Details</h1>
 		</div>
-		
+	
+	<div> <!-- Full description -->
 	<xsl:for-each select="*">
 	   <xsl:choose>
 			<xsl:when test="local-name() = 'Version'"> <!-- We skip this -->
@@ -338,6 +364,7 @@ a.xml-logo:hover {
 	   </xsl:choose>			
     </xsl:for-each>
 	</div>
+	</div> <!-- spase -->
 </xsl:template>
 
 <xsl:template match="*">
@@ -396,6 +423,14 @@ a.xml-logo:hover {
 	</xsl:if>
 </xsl:template>
 
+<!-- 
+Wrap text in {{#markdown}}{{/markdown}} for processing with Handlebars.
+Also remove leading and trailing spaces to get desired formatting.
+-->
+<xsl:template match="sp:Description">
+	<dt><xsl:value-of select="local-name()"/></dt><dd>{{#markdown}}<xsl:call-template name="trim"><xsl:with-param name="input" select="."/></xsl:call-template>{{/markdown}}</dd>
+</xsl:template>
+
 <xsl:template match="sp:Keyword">
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
 		<dt><xsl:value-of select="local-name()"/>s</dt>
@@ -439,6 +474,36 @@ Call with the following:
       <xsl:value-of select="$path" />
     </xsl:otherwise>
   </xsl:choose>
+</xsl:template>
+
+<!-- Trim leading and trailing space from a string -->
+<xsl:template name="trim">
+	<xsl:param name="input"/>
+	<xsl:choose>
+		<xsl:when test="starts-with($input,' ')">
+			<xsl:call-template name="trim">
+				<xsl:with-param name="input" select="substring-after($input,' ')"/>
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:when test="starts-with($input,'&#10;')"> <!-- newline -->
+			<xsl:call-template name="trim">
+				<xsl:with-param name="input" select="substring-after($input,' ')"/>
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:when test="starts-with($input,'&#13;')"> <!-- carriage return -->
+			<xsl:call-template name="trim">
+				<xsl:with-param name="input" select="substring-after($input,' ')"/>
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:when test="substring($input, string-length($input) ) = ' ' ">
+			<xsl:call-template name="trim">
+				<xsl:with-param name="input" select="substring($input, 1, string-length($input)-1)"/>
+			</xsl:call-template>
+		</xsl:when>
+		<xsl:otherwise>
+			<xsl:value-of select="$input"/>
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

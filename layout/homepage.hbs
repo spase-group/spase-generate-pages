@@ -8,6 +8,21 @@
 	body {
 		padding: 0;
 		margin: 0;
+		font-family: Verdana, Arial, sans-serif; 
+		font-size:14px; 
+		line-height: 1.2;
+	}
+	h1 {
+		font-size: 140%;
+	}
+
+	h2 {
+		font-size: 120%;
+	}
+
+	h3 {
+		font-size: 110%;
+		font-style: oblique;
 	}
 	.middle: {
 		vertical-align: middle;
@@ -85,6 +100,7 @@
 		overflow: hidden;
 		white-space: nowrap;
 		font-weight: bold;
+		padding-bottom: 0.2em;
 		background: #f1f1f1;
 		box-shadow: 0px 1px 4px /*{global-box-shadow-size}*/ rgba(0,0,0,.3) /*{global-box-shadow-color}*/;
 	}
@@ -122,6 +138,9 @@
 	  
 	  border-right: 12px solid #a0a0a0;
 	  float: left;
+	}
+	.puff {
+		font-size: 110%;
 	}
 	.list-divider {
 		color: #fff;
@@ -166,31 +185,31 @@
 	<div class="column">
 	<div id="homeheader">
 		<h1 class="center">SPASE</h1>
-		<p>Quick access to SPASE resource descriptions.</p>
-	</div>
-	<div>
-		<p>
-		The "spase.info" web site is designed to work so that replacing "spase://" 
-		with "http://spase.info/" in any SPASE Resource ID and adding ".html" to the end
-		will get you to a landing page. The intent of the site is for quick, 
-		uncluttered access to SPASE resource descriptions.
-		</p>
-		<h3>All Supported Extensions</h3>
-		<p class="indent">
-		<b>.xml</b> : Get a resource description in XML form<br/>
-		<b>.json</b> : Get a resource description in JSON form<br/>
-		<b>.html</b> : Get a formatted resource description<br/>
-		</p>
+		<center><p class="puff">Quick, uncluttered access to SPASE resource descriptions.</p></center>
 	</div>
 	<div>
 		<h4>What's a "landing page"?</h4>
 		<p>
 		Its a page which provides a summary of a resource and links to things you can do with the resource.
 		</p>
-		<h4>How to form a "spase.info" link?</h4>
+	</div>
+	<div>
 		<p>
-		Links at spase.info do not have parameters. An action or transform 
-		on a resource link is determined by file name extensions.
+			The "spase.info" web site is designed to work so that replacing "spase://" 
+			with "http://spase.info/" in any SPASE Resource ID and adding ".html" to the end
+			will get you to a landing page. 
+			</p>
+			<p>
+			Links at spase.info do not have parameters. To retrieve a particular format or form of a resource 
+			use one of the supported file name extensions.
+		</p>
+		
+		<h3>All Supported Extensions</h3>
+		
+		<p class="indent">
+		<b>.xml</b> : Get a resource description in XML form<br/>
+		<b>.json</b> : Get a resource description in JSON form<br/>
+		<b>.html</b> : Get a formatted resource description<br/>
 		</p>
 	</div>
 	</div> <!-- content-secondary -->

@@ -8,6 +8,7 @@ bower_components
 _gh_pages
 metadata
 pages
+temp
 
 # OS or Editor folders
 *.esproj
