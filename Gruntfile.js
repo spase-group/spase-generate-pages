@@ -46,8 +46,9 @@ module.exports = function(grunt) {
 			title: "SPASE.info",
 		},
 		
-		// COMPILE AND EXECUTE TASKS
-		// Copy XML
+		// Defined tasks
+		
+		// Copy XML file in metadata directory to destination.
 	    copy: {
 			main: {
 			   files: [
@@ -61,6 +62,7 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Process all handlebar files (.hbs) in the temp folder and write to destination.
 		assemble: {
 			options: {
 				flatten: true,
@@ -78,7 +80,7 @@ module.exports = function(grunt) {
 			}
 		},
 	  
-		// Generate HTML version using stylesheet
+		// Transform XML files in metadata folder with an XSLT stylesheet and write output in temporary folder with ".hbs" extension.
 		xsltproc: {
 			options: {
 				stylesheet: '<%= site.stylesheet %>/spase.xsl'
@@ -98,7 +100,7 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Create JSON version 
+		// Convert XML files in metadata folder to JSON and write to destination folder.
 		convert: {
 			options: {
 				explicitArray: false,
@@ -115,6 +117,8 @@ module.exports = function(grunt) {
 			}
 		},
 
+		// Create index pages for the content of the destination folder. 
+		// Target "index" will generate pages for each directory. Target "homepage" will create a home page.
 		index_maker: {
 			options: {
 				files: false,
@@ -146,9 +150,8 @@ module.exports = function(grunt) {
 			}
 
 		},
-  
-		// Before generating any new files,
-		// remove any previously-created files.
+
+		// Remove any previously-created files from the destination folder and temporary folder
 		clean: {
 			build: ['<%= site.dest %>/**/*.html', '<%= site.dest %>/**/*.xml', '<%= site.dest %>/**/*.json'],
 			temp: ['<%= site.temp %>']
@@ -157,8 +160,9 @@ module.exports = function(grunt) {
 	});
 
 	// Define tasks. Task called "default" runs with no command line options
+	
 	// To "index_maker" before "convert" so that index does not include extra files.
-	grunt.registerTask('default', ['xsltproc', 'assemble', 'index_maker', 'copy', 'convert']);
+	grunt.registerTask('default', ['xsltproc', 'assemble', 'copy', 'convert', 'index_maker:index', 'index_maker:homepage']);
 	grunt.registerTask('listing', ['index_maker:index']);
 	grunt.registerTask('homepage', ['index_maker:homepage']);
 };

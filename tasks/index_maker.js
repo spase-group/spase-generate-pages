@@ -119,7 +119,7 @@ module.exports = function (grunt) {
 						else fileList.push(tempInfo);
 					});
 					
-					// Sort with folders and files, the place folders first
+					// Sort with folders and files, place folders first
 					dirList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
 					fileList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
 					info = info.concat(dirList, fileList);
