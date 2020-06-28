@@ -1,5 +1,5 @@
 /*
- * Build SPASE.info static web site from XML 
+ * Build HPDE resource static web site from the XML descriptions.
  *
  * Copyright (c) 2020. Todd King and Regents of the University of California
  * Licensed under the Apache 2.0 license.
@@ -31,11 +31,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-assemble');
+	grunt.loadNpmTasks('grunt-sitemap-xml');	
 	
 	// Configure tasks
 	grunt.initConfig({
 		site: {
-			src: "src",
+			src: grunt.option('src') || '**/*.xml', // Read everything inside the cwd
 			dest: "pages",
 			metadata: "metadata",
 			stylesheet: "xsl",
@@ -43,19 +44,19 @@ module.exports = function(grunt) {
 			listing: "layout/listing.hbs",
 			homepage: "layout/homepage.hbs",
 			layout: "layout/default.hbs",
-			title: "SPASE.info",
+			title: "HPDE.io",
 		},
 		
 		// Defined tasks
 		
 		// Copy XML file in metadata directory to destination.
 	    copy: {
-			main: {
+			xml: {
 			   files: [
 				   {
 					  expand: true,
 					  cwd: '<%= site.metadata %>', // set 'Current Working Directory'
-					  src: '**', // Read everything inside the cwd
+					  src: '<%= site.src %>', // Source files
 					  dest: '<%= site.dest %>/', // Destination folder
 				   }
 				]
@@ -93,7 +94,7 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: '<%= site.metadata %>',
 					extDot: 'last',
-					src: '**/*.xml',
+					src: '<%= site.src %>', // Source files
 					dest: '<%= site.temp %>',
 					ext: '.hbs',
 				}]
@@ -110,13 +111,33 @@ module.exports = function(grunt) {
 					expand: true,
 					cwd: '<%= site.metadata %>',
 					extDot: 'last',
-					src: '**/*.xml',
+					src: '<%= site.src %>', // Source files
 					dest: '<%= site.dest %>',
 					ext: '.json',
 				}]
 			}
 		},
 
+		// Create sitemap
+		sitemap_xml: {
+			build: {
+				options: {
+					siteRoot: 'https://hpde.io',
+					stripIndex: false,
+					priority: 0.8,
+					changeFreq: 'daily',
+					pretty: true
+				},
+				files: [
+					{
+						cwd: '<%= site.dest %>',
+						src: '**/*.html',
+						dest: '<%= site.dest %>/sitemap.xml'
+					}
+				]
+			}	
+		},
+		
 		// Create index pages for the content of the destination folder. 
 		// Target "index" will generate pages for each directory. Target "homepage" will create a home page.
 		index_maker: {
@@ -141,7 +162,7 @@ module.exports = function(grunt) {
 			homepage: {
 				options: {
 					template: '<%= site.homepage %>',
-					exclude: ['.git', 'README.md', 'LICENSE', 'Deprecated',  '*.xml', '*.json']
+					exclude: ['.git', 'README.md', 'LICENSE',  'CNAME', 'Deprecated',  '*.xml', '*.json']
 				},
 				expand: true,
 				cwd: '<%= site.dest %>',
@@ -162,7 +183,8 @@ module.exports = function(grunt) {
 	// Define tasks. Task called "default" runs with no command line options
 	
 	// To "index_maker" before "convert" so that index does not include extra files.
-	grunt.registerTask('default', ['xsltproc', 'assemble', 'copy', 'convert', 'index_maker:index', 'index_maker:homepage']);
+	grunt.registerTask('default', ['xsltproc', 'assemble', 'copy', 'convert', 'index_maker:index', 'index_maker:homepage', 'sitemap_xml', 'clean:temp']);
+	grunt.registerTask('html', ['xsltproc', 'assemble', 'clean:temp']);
 	grunt.registerTask('listing', ['index_maker:index']);
 	grunt.registerTask('homepage', ['index_maker:homepage']);
 };

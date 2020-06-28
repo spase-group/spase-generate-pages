@@ -22,14 +22,14 @@
 		"publication": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />, <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />", <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublishedBy" /> (<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />)",
 		"publisher  ":{
 		   "@type": "Organization",
-           "url": "https://www.esa.int/",
            "name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />"
 		},
 	</xsl:if>
- 		"description": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Description" />",
-		"abstract": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Description" />",
+ 		"description": "<xsl:call-template name="normalize-json"><xsl:with-param name="replace" select="'&#10;'" /><xsl:with-param name="with" select="'\n'" /><xsl:with-param name="text" select="./sp:Spase/*/sp:ResourceHeader/sp:Description"/></xsl:call-template>",
+		"abstract": "<xsl:call-template name="normalize-json"><xsl:with-param name="replace" select="'&#10;'" /><xsl:with-param name="with" select="'\n'" /><xsl:with-param name="text" select="./sp:Spase/*/sp:ResourceHeader/sp:Description"/></xsl:call-template>",
 		"temporalCoverage": "1990.10.06  2009.30.06",
 		"keywords": [ <xsl:for-each select="./sp:Spase/*/sp:Keyword"> "<xsl:value-of select="." />"<xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if></xsl:for-each> ],
+		"license": "https://cdla.io/permissive-1-0/",
         "audience":{
             "@type": "Audience",
             "audienceType": ["Space Physicist", "Space Community", "Data Scientists", "Machine Learning Users"]
@@ -280,7 +280,7 @@ a.xml-logo:hover {
 	<body>
 		<div><a id="top"></a></div>
 		<div class="header">
-			<div class="middle">SPASE.info</div>
+			<div class="middle">HPDE.io</div>
 		</div> <!-- /header -->
 		<div class="page">
        <xsl:apply-templates select="Package"/>	<!-- create table of content if present -->
@@ -387,7 +387,7 @@ a.xml-logo:hover {
 		   <xsl:choose>
 				<xsl:when test="'ID' = substring(local-name(), string-length(local-name()) - 1)"> <!-- Fix-up ID: Length of string is 1 more than than position count -->
 				<!-- <xsl:when test="ends-with(local-name(), 'ID')"> --> <!-- set anchor -->
-					<dt><xsl:value-of select="local-name()"/></dt><dd><a href="http://spase.info/{.}"><xsl:value-of select="."/></a></dd> 
+					<dt><xsl:value-of select="local-name()"/></dt><dd><a href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></dd> 
 				</xsl:when>
 				<xsl:when test="'Date' = substring(local-name(), string-length(local-name()) - 3)"> <!-- Fix-up date:  Length of string is 1 more than than position count -->
 				<!--- <xsl:when test="ends-with(local-name(), 'Date')"> --> <!-- Fix-up date -->
@@ -415,7 +415,7 @@ a.xml-logo:hover {
 		<tr><th></th><th class="center">Role</th><th class="center">Person</th></tr>
 		<xsl:text disable-output-escaping="yes">&lt;tbody&gt;</xsl:text>
 	</xsl:if>
-	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="http://spase.info/registry/render?id={sp:PersonID}"><xsl:value-of select="sp:PersonID"/></a></td></tr>
+	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td></tr>
 	<xsl:if test="count(following-sibling::*[name() = name(current())]) = 0">
 		<xsl:text disable-output-escaping="yes">&lt;/tbody&gt;</xsl:text>
 		<xsl:text disable-output-escaping="yes">&lt;/table&gt;</xsl:text>
@@ -446,7 +446,7 @@ Also remove leading and trailing spaces to get desired formatting.
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
 		<dt><xsl:value-of select="local-name()"/>s</dt>
 	</xsl:if>
-	<dd><a target="_blank" href="http://spase.info/registry/render?id={.}"><xsl:value-of select="."/></a></dd>
+	<dd><a target="_blank" href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></dd>
 </xsl:template>
 
 <xsl:template match="sp:PriorID">
@@ -504,6 +504,45 @@ Call with the following:
 			<xsl:value-of select="$input"/>
 		</xsl:otherwise>
 	</xsl:choose>
+</xsl:template>
+
+<!-- Replace a string every where it occurs -->
+<xsl:template name="normalize-json">
+    <xsl:param name="text" />
+	<xsl:variable name="value">
+		<xsl:call-template name="string-replace-all">
+			<xsl:with-param name="replace" select="'&#10;'" />
+			<xsl:with-param name="with" select="'\n'" />
+			<xsl:with-param name="text" select="$text"/>
+		</xsl:call-template>
+	</xsl:variable>	
+	<xsl:call-template name="string-replace-all">	
+		<xsl:with-param name="text" select="$value" />
+		<xsl:with-param name="replace" select="'&#34;'" />
+		<xsl:with-param name="with" select="'\&#34;'" />
+	</xsl:call-template>
+</xsl:template>
+
+<!-- Replace a string every where it occurs -->
+<xsl:template name="string-replace-all">
+    <xsl:param name="text" />
+    <xsl:param name="replace" />
+    <xsl:param name="with" />
+    <xsl:choose>
+      <xsl:when test="contains($text, $replace)">
+        <xsl:value-of select="substring-before($text,$replace)" />
+        <xsl:value-of select="$with" />
+        <xsl:call-template name="string-replace-all">
+          <xsl:with-param name="text"
+          select="substring-after($text,$replace)" />
+          <xsl:with-param name="replace" select="$replace" />
+          <xsl:with-param name="with" select="$with" />
+        </xsl:call-template>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$text" />
+      </xsl:otherwise>
+    </xsl:choose>
 </xsl:template>
 
 </xsl:stylesheet>

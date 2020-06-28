@@ -126,14 +126,18 @@ module.exports = function (grunt) {
 					
 					// Write generated file
 					var dest = f.dest + "/" + options.listing;
-
+					var navPath = filename;
+					var n = filename.indexOf("/");
+					if(n > 0) navPath = filename.substring(n);
+					
 					// grunt.verbose.writeln("Writing: " + dest);
 					var contents = {
 						title: options.title,
+						path: navPath,
 						parent: parentFolder,
 						data: options.data,
 						listing: options.listing,
-						paths: info
+						entries: info
 					}
 					
 					grunt.file.write(dest, template(contents), {
