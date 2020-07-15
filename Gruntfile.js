@@ -126,12 +126,12 @@ module.exports = function(grunt) {
 					stripIndex: false,
 					priority: 0.8,
 					changeFreq: 'daily',
-					pretty: true
+					pretty: true					
 				},
 				files: [
 					{
 						cwd: '<%= site.dest %>',
-						src: '**/*.html',
+						src: ['**/*.html', '!Deprecated/**'],
 						dest: '<%= site.dest %>/sitemap.xml'
 					}
 				]
