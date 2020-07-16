@@ -42,6 +42,7 @@ the clone of a website repository. The ".git" folder information should be prese
 to retain the git repository connection.
 
 6. Update the website
+
 If the "pages" folder is connected to a git repository for the web site, running the script
 ```
 update-git.sh
@@ -85,7 +86,9 @@ Occasionally the "compact-git.sh" should be run to improve performance speeds.
 
 **update-pages.sh**:  Bash script to determine new and updated resource descriptions and generate pages for each one. 
 
-Note on running scripts: A good practice is to explicitly specify the shell to run a script with a command like:
+## Notes on running scripts
+
+A good practice is to explicitly specify the shell to run a script with a command like:
 
 ```
 bash script.sh
