@@ -4,7 +4,8 @@ Tools to build the static SPASE resource description web site.
 # Getting stated
 
 1. Clone this repo.
-2. Install Grunt 
+2. Change to the cloned repo directory.
+3. Install Grunt 
 
 ```
 npm install grunt --save
@@ -16,10 +17,10 @@ Install dependencies
 npm install --save
 ```
 
-3. Create a folder named "metadata.src" and place SPASE resource descriptions in the folder.
+4. Create a folder named "metadata.src" and place SPASE resource descriptions in the folder.
 This folder can contain clones of multiple metadata repositories.
 
-4. Generate the pages
+5. Generate the pages
 
 Run the script 
 
@@ -40,7 +41,7 @@ This will create a "pages" folder containing the built files. The "pages" folder
 the clone of a website repository. The ".git" folder information should be preserved between builds
 to retain the git repository connection.
 
-5. Update the website
+6. Update the website
 If the "pages" folder is connected to a git repository for the web site, running the script
 ```
 update-git.sh
@@ -82,7 +83,15 @@ Occasionally the "compact-git.sh" should be run to improve performance speeds.
 
 **update-git.sh**: Bash script to commit the current contents of the folder with a message that includes a date and then push the repo.
 
-**update-pages.sh**:  
+**update-pages.sh**:  Bash script to determine new and updated resource descriptions and generate pages for each one. 
+
+Note on running scripts: A good practice is to explicitly specify the shell to run a script with a command like:
+
+```
+bash script.sh
+```
+
+This will work on all operating systems that have a bash shell available.
 
 # Optimization
 Both the metadata source and the generated pages can contain a lot of files. Here are a couple ways to optimize working with the files.
