@@ -20,7 +20,14 @@ npm install --save
 4. Create a folder named "metadata.src" and place SPASE resource descriptions in the folder.
 This folder can contain clones of multiple metadata repositories.
 
-5. Generate the pages
+5. Optional. Clone the repo for the generated pages.
+
+```
+git clone https://github.com/hpde/hpde.io pages
+grunt -v
+```
+
+6. Generate the pages
 
 Run the script 
 
@@ -29,19 +36,18 @@ update-pages.sh"
 ```
 
 This will create a "metadata" folder which contains all the new or updated resource descriptions and then 
-will run the default Grunt task. The generates pages will be placed in the "pages" folder.
+will run the default Grunt task. The generated pages will be placed in the "pages" folder.
 
-To generate pages for the first time or to do a manual update, run Grunt to build pages
+To generate pages for the first time or to do a complete manual update, run the script
 
 ```
-grunt  -v
+generate-all-pages.sh
 ```
 
-This will create a "pages" folder containing the built files. The "pages" folder could be
-the clone of a website repository. The ".git" folder information should be preserved between builds
-to retain the git repository connection.
+This will copy all files (excluding git related files) from the metadata source folder to the metadata staging area 
+and generate pages. 
 
-6. Update the website
+7. Update the website
 
 If the "pages" folder is connected to a git repository for the web site, running the script
 ```
@@ -50,10 +56,28 @@ update-git.sh
 
 Will do a "git commit" and "git push" to update the website.
 
+# Working with generated pages
+
+The generated pages (in the "pages" folder) are self-contained, static pages. You can view the pages directly from
+the file system by loading any ".html" file into your browser. You can explorer the entire generated web site by
+starting at the "index.html" in the "pages" folder.
+
+
 # For developers
 
 The git is configured to ignore (exclude) the metadata, metadata.src and pages folders, so it is OK to generate
 pages in a clone of the generator.
+
+In the scripts Grunt is used to run the tasks to generate each part of the generated website which is placed in the "pages" folder.
+You can run the build of "pages" folder manually with the command:
+
+```
+grunt  -v
+```
+
+This will create a "pages" folder containing the built files. The "pages" folder could be
+the clone of a website repository. The ".git" folder information should be preserved between builds
+to retain the git repository connection.
 
 # Automating updates
 
@@ -85,6 +109,8 @@ Occasionally the "compact-git.sh" should be run to improve performance speeds.
 **update-git.sh**: Bash script to commit the current contents of the folder with a message that includes a date and then push the repo.
 
 **update-pages.sh**:  Bash script to determine new and updated resource descriptions and generate pages for each one. 
+
+**generate-all-pages.sh**:  Bash script to create pages for files in the metadata source folder. 
 
 ## Notes on running scripts
 
