@@ -5,9 +5,17 @@
 
 SRC=${1:-metadata.src}
 DEST=${2:-metadata}
+PAGES=${3:-pages}
 
 # Clear build area
 rm -r -f ${DEST}/*
+
+# Pull any changes to pages area (if attached to git repo)
+cd $PAGES
+if [ -d ".git" ]; then
+	git pull
+fi
+cd ..
 
 # Process new or changed files
 cd $SRC
