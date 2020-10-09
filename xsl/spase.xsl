@@ -324,9 +324,15 @@ a.xml-logo:hover {
 			<h1><a name="{./*/sp:ResourceID}"><xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" /></a></h1>
 			<xsl:if test="./*/sp:ResourceHeader/sp:PublicationInfo">
 			<p class="author"><xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />
-			(<xsl:value-of select="substring(./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />), 
-			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" /><xsl:if test="./*/sp:ResourceHeader/sp:DOI">, doi: <xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" />
-			</xsl:if>
+			(<xsl:value-of select="substring(./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />). 
+			<xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" />
+			<xsl:call-template name="ref-type">
+				<xsl:with-param name="input" select="./*/sp:ResourceID"/>
+			</xsl:call-template>
+			.
+			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.</xsl:if>
+			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			</p>
 			</xsl:if>
 			<p><dt>ResourceID</dt><dd><xsl:value-of select="./*/sp:ResourceID" /></dd></p>
@@ -342,8 +348,18 @@ a.xml-logo:hover {
 					<xsl:call-template name="getFileName">
 						<xsl:with-param name="path" select="./*/sp:ResourceID" />
 					</xsl:call-template>  
-				</xsl:variable>				
-				<a target="_blank" href="{$fileName}.xml">View XML</a> | <a target="_blank" href="{$fileName}.json">View JSON</a>
+				</xsl:variable>	
+				<xsl:variable name="resourceURL">
+					<xsl:call-template name="string-replace-all">
+						<xsl:with-param name="replace" select="'spase://'" />
+						<xsl:with-param name="with" select="'https://hpde.io/'" />
+						<xsl:with-param name="text" select="./*/sp:ResourceID"/>
+					</xsl:call-template>  
+				</xsl:variable>	
+				
+				<a target="_blank" href="{$fileName}.xml">View XML</a> 
+				| <a target="_blank" href="{$fileName}.json">View JSON</a> 
+				| <a target="_blank" href="http://xmleditor.spase-group.org/base/?edit={$resourceURL}.xml">Edit</a>
 			</p>
 			<h1 class="detail">Details</h1>
 		</div>
@@ -521,6 +537,24 @@ Call with the following:
 		<xsl:with-param name="replace" select="'&#34;'" />
 		<xsl:with-param name="with" select="'\&#34;'" />
 	</xsl:call-template>
+</xsl:template>
+
+<!-- Replace a string every where it occurs -->
+<xsl:template name="ref-type">
+    <xsl:param name="input" />
+	<xsl:choose>
+		<xsl:when test="contains($input, 'NumericalData')">
+			[Data set]
+		</xsl:when>
+		<xsl:when test="contains($input, 'DisplayData')">
+			[Data set]
+		</xsl:when>
+		<xsl:when test="contains($input, 'Catalog')">
+			[Data set]
+		</xsl:when>
+		<xsl:otherwise>
+		</xsl:otherwise>
+	</xsl:choose>
 </xsl:template>
 
 <!-- Replace a string every where it occurs -->

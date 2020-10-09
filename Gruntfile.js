@@ -5,6 +5,18 @@
  * Licensed under the Apache 2.0 license.
  */
 
+/* Options:
+ *	src: Pattern for files to process. Default: '**\/*.xml'
+ *	dest: The folder to write the generated pages. Default: "pages"
+ * 	metadata: The folder containing the XML to transform. Default: "metadata"
+ *  stylesheet: The XML stylesheet to transform the XML to HTML. Default: "xsl/spase.xsl"
+ * 	temp: The folder to write temporary files. Default: "temp"
+ *  listing: The Handlebars file to generate the listing of landing pages. Default: "layout/listing.hbs"
+ *  homepage: The Handlebars file to generate the homepage. Default: "layout/homepage.hbs"
+ *	layout: The Handlebars file for generating the landing page. Default: "layout/default.hbs"
+ *  title: The title for the web site. Default: "HPDE.io",
+*/
+
  /*
  * Required modules
  *
@@ -36,15 +48,15 @@ module.exports = function(grunt) {
 	// Configure tasks
 	grunt.initConfig({
 		site: {
-			src: grunt.option('src') || '**/*.xml', // Read everything inside the cwd
-			dest: "pages",
-			metadata: "metadata",
-			stylesheet: "xsl",
-			temp: "temp",
-			listing: "layout/listing.hbs",
-			homepage: "layout/homepage.hbs",
-			layout: "layout/default.hbs",
-			title: "HPDE.io",
+			src: 		grunt.option('src') || '**/*.xml', // Read everything inside the cwd
+			dest: 		grunt.option('dest') || "pages",
+			metadata: 	grunt.option('metadata') || "metadata",
+			stylesheet: grunt.option('xsl') || "xsl/spase.xsl",
+			temp: 		grunt.option('temp') || "temp",
+			listing: 	grunt.option('listing') || "layout/listing.hbs",
+			homepage: 	grunt.option('homepage') || "layout/homepage.hbs",
+			layout: 	grunt.option('layout') || "layout/default.hbs",
+			title: 		grunt.option('title') || "HPDE.io",
 		},
 		
 		// Defined tasks
@@ -84,11 +96,11 @@ module.exports = function(grunt) {
 		// Transform XML files in metadata folder with an XSLT stylesheet and write output in temporary folder with ".hbs" extension.
 		xsltproc: {
 			options: {
-				stylesheet: '<%= site.stylesheet %>/spase.xsl'
+				stylesheet: '<%= site.stylesheet %>'
 			},
 			compile: {
 				options: {
-					stylesheet: '<%= site.stylesheet %>/spase.xsl'
+					stylesheet: '<%= site.stylesheet %>'
 				},
 				files: [{
 					expand: true,

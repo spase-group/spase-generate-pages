@@ -62,6 +62,46 @@ The generated pages (in the "pages" folder) are self-contained, static pages. Yo
 the file system by loading any ".html" file into your browser. You can explorer the entire generated web site by
 starting at the "index.html" in the "pages" folder.
 
+# Custom Builds
+
+You can use "grunt" to do custom builds. The Gruntfile in the project uses default values for locating metadata, page templates 
+and where to write generated pages. These values can be set on the command line with the following options:
+
+### -src
+
+The pattern for files to process. Default:'**/*.xml'
+
+### -dest
+
+The folder to place generated pages. Default: "pages"
+
+### -metadata
+
+The folder containing the files to process. Files that match the "-src" pattern will be processed. Default: "metadata"
+
+### -stylesheet
+
+The XML stylesheet for transforming XML files to HTML. Default: "xsl/spase.xsl"
+
+### -temp
+
+The folder to place temporary files. Default: "temp"
+
+### -listing
+
+The Handlebars template for generating a listing of files. Default: "layout/listing.hbs"
+
+### -homepage
+
+The Handlebars template for generating the homepage for the generated pages. Default: "layout/homepage.hbs"
+
+### -layout:
+
+The Handlebars template for the generated pages. Default: "layout/default.hbs",
+
+### -title
+
+The title to place in the generated pages. Default: "HPDE.io"
 
 # For developers
 
@@ -107,6 +147,8 @@ Occasionally the "compact-git.sh" should be run to improve performance speeds.
 **compact-git.sh**: Bash script to refresh the git attached to "page". This will remove all previous commits and add a fresh commit of the pages folder contents.
 
 **update-git.sh**: Bash script to commit the current contents of the folder with a message that includes a date and then push the repo.
+
+**update-metadata.sh**:  Bash script to do a "git pull" on every folder in another folder. 
 
 **update-pages.sh**:  Bash script to determine new and updated resource descriptions and generate pages for each one. 
 
