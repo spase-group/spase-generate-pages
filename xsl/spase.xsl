@@ -323,13 +323,12 @@ a.xml-logo:hover {
 		<div class="citation {$inset}">
 			<h1><a name="{./*/sp:ResourceID}"><xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" /></a></h1>
 			<xsl:if test="./*/sp:ResourceHeader/sp:PublicationInfo">
-			<p class="author"><xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />
+			<p class="author"><script>var authors='<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />'; var namefixed = authors.replace(/, (.)[^,; ]*/g, ", $1."); var almost = namefixed.replace(/;([^;]*)$/, ' and $1'); document.write(almost.replace(/;[ ]*/g, ", "));</script>
 			(<xsl:value-of select="substring(./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />). 
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" />
 			<xsl:call-template name="ref-type">
 				<xsl:with-param name="input" select="./*/sp:ResourceID"/>
 			</xsl:call-template>
-			.
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
 			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.</xsl:if>
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
@@ -544,15 +543,16 @@ Call with the following:
     <xsl:param name="input" />
 	<xsl:choose>
 		<xsl:when test="contains($input, 'NumericalData')">
-			[Data set]
+			[Data set].
 		</xsl:when>
 		<xsl:when test="contains($input, 'DisplayData')">
-			[Data set]
+			[Data set].
 		</xsl:when>
 		<xsl:when test="contains($input, 'Catalog')">
-			[Data set]
+			[Data set].
 		</xsl:when>
 		<xsl:otherwise>
+			.
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
