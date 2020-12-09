@@ -82,17 +82,6 @@ p {
 	margin-bottom: 0.75ex;
 }
 
-dt {
-	margin-top: 5px;
-	padding-left: 5px;
-	border-top: 1px solid #DDD;
-	font-weight: bold;
-}
-
-dd {
-	margin-left: 5ex;
-}
-
 a:link,
 a:visited {
    color: #277bc0;/* #339;*/
@@ -115,6 +104,10 @@ table {
    border: thin solid #666;
 	margin-top: 5px;
 	margin-bottom: 10px;
+}
+
+table.nested {
+	margin-left: 2em;
 }
 
 thead,tbody {
@@ -157,6 +150,25 @@ h1.detail {
 	padding: 10px 3% 10px 3%;
 }
 
+div.indent {
+    margin-left: 2em;
+}
+
+div.term {
+	margin-top: 5px;
+	padding-left: 5px;
+	border-top: 1px solid #DDD;
+	font-weight: bold;
+}
+
+div.definition {
+	margin-left: 5ex;
+}
+
+div.value {
+	margin-left: 5ex;
+}
+
 div.product {
 	background-color: white;
 	border: thin solid #333;
@@ -165,13 +177,6 @@ div.product {
 }
 
 div.parameter {
-	margin-top: 10px;
-	padding: 5px 10px 10px 10px;
-	border: thin dotted #333;
-	background-color: #ebebeb;
-}
-
-dt.parameter {
 	margin-top: 10px;
 	padding: 5px 10px 10px 10px;
 	border: thin dotted #333;
@@ -334,7 +339,7 @@ a.xml-logo:hover {
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			</p>
 			</xsl:if>
-			<p><dt>ResourceID</dt><dd><xsl:value-of select="./*/sp:ResourceID" /></dd></p>
+			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
 			<p><xsl:apply-templates select="./*/sp:ResourceHeader/sp:Description"></xsl:apply-templates></p>
 		
 		</div>
@@ -358,7 +363,7 @@ a.xml-logo:hover {
 				
 				<a target="_blank" href="{$fileName}.xml">View XML</a> 
 				| <a target="_blank" href="{$fileName}.json">View JSON</a> 
-				| <a target="_blank" href="http://xmleditor.spase-group.org/base/?edit={$resourceURL}.xml">Edit</a>
+				| <a target="_blank" href="http://xmleditor.spase-group.org/?edit={$resourceURL}.xml">Edit</a>
 			</p>
 			<h1 class="detail">Details</h1>
 		</div>
@@ -371,7 +376,6 @@ a.xml-logo:hover {
 			<xsl:otherwise> <!-- All others -->
 				<div class="product">
 					<p class="version">Version:<xsl:value-of select="../sp:Version"/></p>
-
 					<h1><xsl:value-of select="local-name()"/></h1>
 					<xsl:apply-templates select="*"></xsl:apply-templates>
 				</div>
@@ -383,48 +387,48 @@ a.xml-logo:hover {
 </xsl:template>
 
 <xsl:template match="*">
-    <dl>		
 	   <xsl:choose>
 		<xsl:when test="*"> <!-- has children -->
 		   <xsl:choose>
 				<xsl:when test="local-name() = 'Parameter'"> <!-- Add count to tabel -->
-					<dt class="parameter"><xsl:value-of select="local-name()"/> #<xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" /></dt>
+					<div class="parameter"><xsl:value-of select="local-name()"/> #<xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" /></div>
 				</xsl:when>
 				<xsl:otherwise>	<!-- Show name/value -->
-					<dt><xsl:value-of select="local-name()"/></dt>
+					<div class="term"><xsl:value-of select="local-name()"/></div>
 				</xsl:otherwise>
 			</xsl:choose>
-			<dd>
+			<div class="definition">
 				<xsl:apply-templates select="*"></xsl:apply-templates>
-			</dd>
+			</div>
 		</xsl:when>
 		<xsl:otherwise>
 		   <xsl:choose>
 				<xsl:when test="'ID' = substring(local-name(), string-length(local-name()) - 1)"> <!-- Fix-up ID: Length of string is 1 more than than position count -->
 				<!-- <xsl:when test="ends-with(local-name(), 'ID')"> --> <!-- set anchor -->
-					<dt><xsl:value-of select="local-name()"/></dt><dd><a href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></dd> 
+					<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition"><a href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></div> 
 				</xsl:when>
 				<xsl:when test="'Date' = substring(local-name(), string-length(local-name()) - 3)"> <!-- Fix-up date:  Length of string is 1 more than than position count -->
 				<!--- <xsl:when test="ends-with(local-name(), 'Date')"> --> <!-- Fix-up date -->
-					<dt><xsl:value-of select="local-name()"/></dt><dd><xsl:value-of select="translate(., 'T', ' ')"/></dd>
+					<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition"><xsl:value-of select="translate(., 'T', ' ')"/></div>
 				</xsl:when>
 				<xsl:when test="local-name() = 'URL'"> <!-- Format link -->
-					<dt><xsl:value-of select="local-name()"/></dt><dd><a target="_blank" href="{.}"><xsl:value-of select="."/></a></dd>
+					<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition"><a target="_blank" href="{.}"><xsl:value-of select="."/></a></div>
 				</xsl:when>
 				<xsl:otherwise>	<!-- Show name/value -->
-					<dt><xsl:value-of select="local-name()"/></dt><dd><xsl:value-of select="."/></dd>
+					<xsl:if test="not(. = '')"> <!-- only if there is content -->
+						<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition"><xsl:value-of select="."/></div>
+					</xsl:if>
 				</xsl:otherwise>
 			</xsl:choose>
 		</xsl:otherwise>
 	   </xsl:choose>
-    </dl>
-
+ 
 </xsl:template>
 
 <xsl:template match="sp:Contact">
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
-		<!-- Encode tags that are split by XSLT -->
-		<dt><xsl:value-of select="local-name()"/>s</dt>
+		<!-- Initialize table -->
+		<div class="term"><xsl:value-of select="local-name()"/>s</div>
 		<xsl:text disable-output-escaping="yes">&lt;dd&gt;</xsl:text>
 		<xsl:text disable-output-escaping="yes">&lt;table class="nested" cellspacing="0"&gt;</xsl:text>
 		<tr><th></th><th class="center">Role</th><th class="center">Person</th></tr>
@@ -432,6 +436,7 @@ a.xml-logo:hover {
 	</xsl:if>
 	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td></tr>
 	<xsl:if test="count(following-sibling::*[name() = name(current())]) = 0">
+		<!-- Finalize table -->
 		<xsl:text disable-output-escaping="yes">&lt;/tbody&gt;</xsl:text>
 		<xsl:text disable-output-escaping="yes">&lt;/table&gt;</xsl:text>
 		<xsl:text disable-output-escaping="yes">&lt;/dd&gt;</xsl:text>
@@ -443,32 +448,34 @@ Wrap text in {{#markdown}}{{/markdown}} for processing with Handlebars.
 Also remove leading and trailing spaces to get desired formatting.
 -->
 <xsl:template match="sp:Description">
-	<dt><xsl:value-of select="local-name()"/></dt><dd>{{#markdown}}<xsl:call-template name="trim"><xsl:with-param name="input" select="."/></xsl:call-template>{{/markdown}}</dd>
+	<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition">{{#markdown}}<xsl:call-template name="trim"><xsl:with-param name="input" select="."/></xsl:call-template>{{/markdown}}</div>
 </xsl:template>
 
 <xsl:template match="sp:Keyword">
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
-		<dt><xsl:value-of select="local-name()"/>s</dt>
+		<div class="term"><xsl:value-of select="local-name()"/>s</div>
 	</xsl:if>
-	<dd><xsl:value-of select="."/></dd>
+	<xsl:if test="not(. = '')"> <!-- only if there is content -->
+		<div class="definition"><xsl:value-of select="."/></div>
+	</xsl:if>
 </xsl:template>
 
 <xsl:template match="sp:ResourceID">
-	<dt><xsl:value-of select="local-name()"/></dt><dd><xsl:value-of select="."/></dd>
+	<div class="term"><xsl:value-of select="local-name()"/></div><div class="definition"><xsl:value-of select="."/></div>
 </xsl:template>
 
 <xsl:template match="sp:InstrumentID">
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
-		<dt><xsl:value-of select="local-name()"/>s</dt>
+		<div class="term"><xsl:value-of select="local-name()"/>s</div>
 	</xsl:if>
-	<dd><a target="_blank" href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></dd>
+	<div class="definition"><a target="_blank" href="https://hpde.io/{substring-after(., 'spase://')}.html"><xsl:value-of select="."/></a></div>
 </xsl:template>
 
 <xsl:template match="sp:PriorID">
 	<xsl:if test="count(preceding-sibling::*[name() = name(current())]) = 0">
-		<dt><xsl:value-of select="local-name()"/>s</dt>
+		<div class="term"><xsl:value-of select="local-name()"/>s</div>
 	</xsl:if>
-	<dd><xsl:value-of select="."/></dd>
+	<div class="definition"><xsl:value-of select="."/></div>
 </xsl:template>
 
 <!-- Get the fileName portion of a path. 

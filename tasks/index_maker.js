@@ -41,6 +41,11 @@ module.exports = function (grunt) {
 			if(param1.endsWith('.html')) return('_blank');
 			return('_self');
 		});
+
+		parser.registerHelper('crumb', function(param1, options) {
+			if(param1.endsWith('.html')) return('_blank');
+			return('_self');
+		});
 		
 		return parser;
 	}
@@ -81,7 +86,7 @@ module.exports = function (grunt) {
 			// grunt.verbose.writeln(JSON.stringify(f, null, 3));
 
             f.src.map(function (filename) {
-				// Check if file name is to excluded. Grunt should do this but in some cases it's not perfect.
+				// Check if file name is to be excluded. Grunt should do this but in some cases it's not perfect.
 				var entryName = path.basename(filename);
 				// if(options.exclude.includes(testname)) return;
 				for(let i =0; i < options.exclude.length; i++) {
@@ -111,25 +116,29 @@ module.exports = function (grunt) {
 
 						var tempInfo = {
 							basename: path.basename(entryName),
+							stem: path.basename(entryName, path.extname(entryName)),
 							mtime: stat.mtime,
 							size: stat.size,
 							isDir: grunt.file.isDir(pathname),
 						}
 						if(tempInfo.isDir) dirList.push(tempInfo);
 						else fileList.push(tempInfo);
+						info.push(tempInfo);
 					});
 					
 					// Sort with folders and files, place folders first
-					dirList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
-					fileList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
-					info = info.concat(dirList, fileList);
+					// dirList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
+					// fileList.sort(function(a, b) { a.basename.localeCompare(b.basename, undefined, { sensitivity: 'base' })});
+					// info = info.concat(dirList, fileList);
+					// Sort combined list.
+					info.sort(function(a, b) { a.stem.localeCompare(b.stem, undefined, { sensitivity: 'base' })});
 					
 					// Write generated file
 					var dest = f.dest + "/" + options.listing;
 					var navPath = filename;
 					var n = filename.indexOf("/");
 					if(n > 0) navPath = filename.substring(n);
-					
+									
 					// grunt.verbose.writeln("Writing: " + dest);
 					var contents = {
 						title: options.title,

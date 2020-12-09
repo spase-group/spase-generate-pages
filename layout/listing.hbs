@@ -170,7 +170,7 @@
 	<ul class="listview">
 		<li class="list-divider"><a href="../{{listing}}"><span class="arrow-left"></span>{{parent}}</a></li>
 		{{#each entries}}
-		<li><a target="{{#target this.basename}}{{/target}}" href="{{this.basename}}{{#if this.isDir}}/{{../listing}}{{/if}}">{{#clean this.basename}}{{/clean}}<span class="arrow-right"></span></a></li>
+		<li><a target="{{#target this.basename}}{{/target}}" href="{{this.basename}}{{#if this.isDir}}/{{../listing}}{{/if}}">{{#clean this.basename}}{{/clean}}{{#if this.isDir}}<span class="arrow-right"></span>{{/if}}</a></li>
 		{{/each}}
 	</ul>
 	</div> <!-- column -->

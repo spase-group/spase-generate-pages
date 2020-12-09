@@ -8,7 +8,7 @@
 #
 # Author: Todd King - 2020-06-26
 
-CONTENT=${1:-metadata}
+CONTENT=${1:-metadata.src}
 
 if [ ! -d "$CONTENT" ]; then
    echo "The folder '$CONTENT' does not exist."

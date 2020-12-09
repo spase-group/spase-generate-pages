@@ -9,7 +9,7 @@ DEST=${2:-metadata}
 # Clear build area
 rm -r -f ${DEST}/*
 
-# Process new or changed files
+# Copy all files to generation area
 cd $SRC
 tar -v -c -f - --exclude .git . | (cd ../${DEST}; tar -x -f -)
 cd ..

@@ -1,5 +1,4 @@
 # Enforce Unix newlines
-*.*     text eol=lf
 *.css   text eol=lf
 *.html  text eol=lf
 *.js    text eol=lf
@@ -9,7 +8,12 @@
 *.yml   text eol=lf
 *.sh    text eol=lf
 
+# Leave everything else as is
+*.*     binary
+
 *.jpg binary
 *.gif binary
 *.png binary
 *.jpeg binary
+*.xml binary
+*.pdf binary
