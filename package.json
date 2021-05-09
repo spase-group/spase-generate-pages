@@ -19,7 +19,7 @@
     "grunt-contrib-copy": "^1.0.0",
     "grunt-convert": "^0.1.12",
     "grunt-xsltproc": "^0.6.1",
-    "handlebars": "^4.7.6",
+    "handlebars": "^4.7.7",
     "xsltproc": "0.0.4"
   }
 }
