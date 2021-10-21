@@ -29,4 +29,6 @@ git gc
 echo "Pushing to repo ..."
 git push -f origin master # Finally, force update your repository
 
+git branch --set-upstream-to=origin/master master # Set local 'master' branch to track remote 'master' from 'origin'
+
 echo "Done."

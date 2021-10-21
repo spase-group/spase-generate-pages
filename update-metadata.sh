@@ -19,10 +19,10 @@ echo "Processing '$CONTENT' ..."
 cd $CONTENT
 for D in *; do
     if [ -d "${D}" ]; then
-        echo "${D}"   # your processing here
-		cd "${D}"
-		git pull
-		cd ..
+       echo -n "${D} : "   # your processing here
+		   cd "${D}"
+		   git pull
+		   cd ..
     fi
 done
 

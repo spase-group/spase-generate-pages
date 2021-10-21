@@ -51,7 +51,7 @@ and generate pages.
 
 If the "pages" folder is connected to a git repository for the web site, running the script
 ```
-update-git.sh
+push-pages.sh
 ```
 
 Will do a "git commit" and "git push" to update the website.
