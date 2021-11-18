@@ -11,7 +11,7 @@ rm -r -f ${DEST}/*
 
 # Copy all files to generation area
 cd $SRC
-tar -v -c -f - --exclude .git . | (cd ../${DEST}; tar -x -f -)
+tar -v -c -f - --exclude .git --exclude .github . | (cd ../${DEST}; tar -x -f -)
 cd ..
 
 # Generate new pages and content
