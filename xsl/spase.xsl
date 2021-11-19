@@ -17,7 +17,7 @@
 		"@context": "https://schema.org/",
 		"@type" :"Dataset",
 		"name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />",
-    <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName"><xsl:for-each select="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName">"aleternateName": "<xsl:value-of select="." />"</xsl:for-each></xsl:if>
+    <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName"><xsl:for-each select="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName">"alternateName": "<xsl:value-of select="." />",</xsl:for-each></xsl:if>
 		"dateModified": "<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:ReleaseDate, 1, 10)" />",
   <xsl:choose>
     <xsl:when test="./sp:Spase/*/sp:ResourceHeader/sp:DOI">
