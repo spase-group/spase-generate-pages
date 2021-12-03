@@ -17,10 +17,10 @@
 		"@context": "https://schema.org/",
 		"@type" :"Dataset",
 		"name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />",
-    <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName"><xsl:for-each select="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName">"alternateName": "<xsl:value-of select="." />",</xsl:for-each></xsl:if>
+    <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName"><xsl:for-each select="./sp:Spase/*/sp:ResourceHeader/sp:AlternateName"><xsl:choose><xsl:when test="position() = 1">"alternateName": "<xsl:value-of select="." />",</xsl:when></xsl:choose></xsl:for-each></xsl:if>
 		"dateModified": "<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:ReleaseDate, 1, 10)" />",
-  <xsl:choose>
-    <xsl:when test="./sp:Spase/*/sp:ResourceHeader/sp:DOI">
+<xsl:choose>
+<xsl:when test="./sp:Spase/*/sp:ResourceHeader/sp:DOI">
     "identifier": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:DOI" />",
     "publication": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />, <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />", <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublishedBy" /> (<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />)",
     "datePublished": "<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 10)" />",
@@ -32,27 +32,36 @@
        "@type": "Organization",
            "name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />"
     },
-    </xsl:when>
-    <xsl:otherwise>
+</xsl:when>
+<xsl:otherwise>
+    "creator  ":{
+       "@type": "Organization",
+           "name": "IHDEA"
+    },
     "identifier": "<xsl:value-of select="./sp:Spase/*/sp:ResourceID" />",
-    </xsl:otherwise>
-  </xsl:choose>
+</xsl:otherwise>
+</xsl:choose>
     "creditText": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Acknowledgement" />",
  		"description": "<xsl:call-template name="normalize-json"><xsl:with-param name="replace" select="'&#10;'" /><xsl:with-param name="with" select="'\n'" /><xsl:with-param name="text" select="./sp:Spase/*/sp:ResourceHeader/sp:Description"/></xsl:call-template>",
 		"abstract": "<xsl:call-template name="normalize-json"><xsl:with-param name="replace" select="'&#10;'" /><xsl:with-param name="with" select="'\n'" /><xsl:with-param name="text" select="./sp:Spase/*/sp:ResourceHeader/sp:Description"/></xsl:call-template>",
+<xsl:if test="./sp:Spase/*/sp:OperatingSpan"><!-- Observatory, Instrument -->
+		"temporalCoverage": "<xsl:value-of select="./sp:Spase/*/sp:OperatingSpan/sp:StartDate" />/<xsl:choose><xsl:when test="./sp:Spase/*/sp:OperatingSpan/sp:StopDate"><xsl:value-of select="./sp:Spase/*/sp:OperatingSpan/sp:StopDate" /></xsl:when><xsl:otherwise>...</xsl:otherwise></xsl:choose>",
+</xsl:if>
+<xsl:if test="./sp:Spase/*/sp:TemporalDescription"><!-- Data resources -->
 		"temporalCoverage": "<xsl:value-of select="./sp:Spase/*/sp:TemporalDescription/sp:TimeSpan/sp:StartDate" />/<xsl:choose><xsl:when test="./sp:Spase/*/sp:TemporalDescription/sp:TimeSpan/sp:StopDate"><xsl:value-of select="./sp:Spase/*/sp:TemporalDescription/sp:TimeSpan/sp:StopDate" /></xsl:when><xsl:otherwise>...</xsl:otherwise></xsl:choose>",
+</xsl:if>
     "genre": "<xsl:value-of select="./sp:Spase/*/sp:MeasurementType" />",
 		"keywords": [ <xsl:for-each select="./sp:Spase/*/sp:Keyword"> "<xsl:value-of select="." />"<xsl:if test="position() != last()"><xsl:text>,</xsl:text></xsl:if></xsl:for-each> ],
 		"license": "https://cdla.io/permissive-1-0/",
+<xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Agency">
+    "funder": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Agency" />",
+    "mentions": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Project" />",
+</xsl:if>
     "audience":{
         "@type": "Audience",
         "audienceType": ["Space Physicist", "Space Community", "Data Scientists", "Machine Learning Users"]
     }
-  <xsl:if test="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Agency">
-    "funder": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Agency" />",
-    "mentions": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:Funding/sp:Project" />",
-	</xsl:if>
-	  }
+}
 	  </script>
 	  <!-- CSS -->
 	  <style>
