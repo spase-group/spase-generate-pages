@@ -24,17 +24,17 @@
     "identifier": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:DOI" />",
     "publication": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />, <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:ResourceName" />", <xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublishedBy" /> (<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />)",
     "datePublished": "<xsl:value-of select="substring(./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 10)" />",
-    "creator  ":{
+    "creator":{
        "@type": "Person",
            "name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />"
     },
-    "publisher  ":{
+    "publisher":{
        "@type": "Organization",
            "name": "<xsl:value-of select="./sp:Spase/*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />"
     },
 </xsl:when>
 <xsl:otherwise>
-    "creator  ":{
+    "creator":{
        "@type": "Organization",
            "name": "IHDEA"
     },
