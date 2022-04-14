@@ -25,6 +25,9 @@
  * npm install grunt-contrib-clean --save-dev
  * npm install grunt-contrib-copy --save-dev
  *
+ * Required installs
+ * apt-get install xsltproc
+ *
  * To build everything
  *     grunt
  * To build the home page
