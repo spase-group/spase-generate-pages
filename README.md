@@ -1,7 +1,7 @@
 # spase-generate-pages
 Tools to build the static SPASE resource description web site.
 
-# Getting stated
+# Getting started
 
 1. Clone this repo.
 2. Change to the cloned repo directory.
