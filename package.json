@@ -11,11 +11,12 @@
   "dependencies": {
     "grunt-assemble": "^0.6.3",
     "grunt-markdown": "^0.7.0",
-    "grunt-sitemap-xml": "^0.3.0"
+    "grunt-sitemap-xml": "^0.3.0",
+    "npm": "^8.8.0"
   },
   "devDependencies": {
     "grunt": "^1.5.2",
-    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-convert": "^0.1.12",
     "grunt-xsltproc": "^0.6.1",
