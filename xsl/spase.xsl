@@ -458,10 +458,10 @@ a.xml-logo:hover {
 		<div class="term"><xsl:value-of select="local-name()"/>s</div>
 		<xsl:text disable-output-escaping="yes">&lt;dd&gt;</xsl:text>
 		<xsl:text disable-output-escaping="yes">&lt;table class="nested" cellspacing="0"&gt;</xsl:text>
-		<tr><th></th><th class="center">Role</th><th class="center">Person</th></tr>
+		<tr><th></th><th class="center">Role</th><th class="center">Person</th><th class="center">StartDate</th><th class="center">StopDate</th><th class="center">Note</th></tr>
 		<xsl:text disable-output-escaping="yes">&lt;tbody&gt;</xsl:text>
 	</xsl:if>
-	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td></tr>
+	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td><td><xsl:value-of select="sp:StartDate"/></td><td><xsl:value-of select="sp:StopDate"/></td><td><xsl:value-of select="sp:Note"/></td></tr>
 	<xsl:if test="count(following-sibling::*[name() = name(current())]) = 0">
 		<!-- Finalize table -->
 		<xsl:text disable-output-escaping="yes">&lt;/tbody&gt;</xsl:text>
