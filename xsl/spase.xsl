@@ -355,7 +355,34 @@ a.xml-logo:hover {
 		<div class="citation {$inset}">
 			<h1><a name="{./*/sp:ResourceID}"><xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" /></a></h1>
 			<xsl:if test="./*/sp:ResourceHeader/sp:PublicationInfo">
-			<p class="author"><script>var authors='<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />'; var namefixed = authors.replace(/, (.)[^,; ]*/g, ", $1."); var almost = namefixed.replace(/;([^;]*)$/, ' and $1'); document.write(almost.replace(/;[ ]*/g, ", "));</script>
+			<p class="author"><script>
+			  var authors='<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />'; 
+//			  var namefixed = authors.replace(/, (.)[^,; ]*/g, ", $1."); 
+//			  var almost = namefixed.replace(/;([^;]*)$/, ' and $1'); 
+//			  document.write(almost.replace(/;[ ]*/g, ", "));
+        var names = authors.split(';');
+        var fmt_names = [];		
+        var n = 0;	 
+			  names.forEach (function (name) {
+			    var this_name = '';
+			    if (n == names.length - 1) {
+			      this_name += 'and ';
+			    }
+			    // alter the current name
+			    var name_parts = name.split(',');
+			    this_name += name_parts.shift() + ', ';
+			    
+			    name_parts.forEach(function (npart) {
+            var c = npart.trim().slice(0, 1);
+			      this_name += c + '.';
+			    });
+			    
+          fmt_names.push(this_name);
+          n++;
+			  });
+			  document.write(fmt_names.join(', '));
+
+			 </script>
 			(<xsl:value-of select="substring(./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />). 
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:ResourceName" />
 			<xsl:call-template name="ref-type">
@@ -461,7 +488,21 @@ a.xml-logo:hover {
 		<tr><th></th><th class="center">Role</th><th class="center">Person</th><th class="center">StartDate</th><th class="center">StopDate</th><th class="center">Note</th></tr>
 		<xsl:text disable-output-escaping="yes">&lt;tbody&gt;</xsl:text>
 	</xsl:if>
-	<tr><td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td><td><xsl:value-of select="sp:Role"/></td><td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td><td><xsl:value-of select="sp:StartDate"/></td><td><xsl:value-of select="sp:StopDate"/></td><td><xsl:value-of select="sp:Note"/></td></tr>
+	<tr>
+	 <td><xsl:value-of select="1 + count(preceding-sibling::*[name() = name(current())])" />.</td>
+	 <td>
+	  <xsl:for-each select="sp:Role">
+	   <xsl:value-of select="."/>
+	   <xsl:if test="count(following-sibling::*[name() = name(current())]) > 0">
+	    <br/>
+	   </xsl:if>
+	  </xsl:for-each>
+	 </td>
+	 <td><a target="_blank" href="https://hpde.io/{substring-after(sp:PersonID, 'spase://')}.html"><xsl:value-of select="sp:PersonID"/></a></td>
+	 <td><xsl:value-of select="sp:StartDate"/></td>
+	 <td><xsl:value-of select="sp:StopDate"/></td>
+	 <td><xsl:value-of select="sp:Note"/></td>
+	</tr>
 	<xsl:if test="count(following-sibling::*[name() = name(current())]) = 0">
 		<!-- Finalize table -->
 		<xsl:text disable-output-escaping="yes">&lt;/tbody&gt;</xsl:text>
