@@ -360,6 +360,7 @@ a.xml-logo:hover {
 //			  var namefixed = authors.replace(/, (.)[^,; ]*/g, ", $1."); 
 //			  var almost = namefixed.replace(/;([^;]*)$/, ' and $1'); 
 //			  document.write(almost.replace(/;[ ]*/g, ", "));
+ /*
         var names = authors.split(';');
         var fmt_names = [];		
         var n = 0;	 
@@ -381,6 +382,8 @@ a.xml-logo:hover {
           n++;
 			  });
 			  document.write(fmt_names.join(', '));
+*/
+			  document.write(authors);
 
 			 </script>
 			(<xsl:value-of select="substring(./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublicationDate, 1, 4)" />). 
