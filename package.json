@@ -12,7 +12,7 @@
     "grunt-assemble": "^0.6.3",
     "grunt-markdown": "^0.7.0",
     "grunt-sitemap-xml": "^0.3.0",
-    "npm": "^8.8.0"
+    "npm": "^9.7.2"
   },
   "devDependencies": {
     "grunt": "^1.5.2",
