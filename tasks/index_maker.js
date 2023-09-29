@@ -104,6 +104,10 @@ module.exports = function (grunt) {
 					grunt.verbose.writeln("Processing " + filename);
 					var parentFolder = path.basename(filename);					
 					var entries = fs.readdirSync(filename);
+					// SMWT telecon request to ignore case in index listings 2023/09/07
+					entries.sort(function (a,b) {
+					  return a.toLowerCase().localeCompare(b.toLowerCase());
+					});
 					entries.map(function(entryName) {
 						if(entryName == options.listing) return;	// Don't include generated file in listing
 						// if(options.exclude.includes(entryName)) return;	// Don't include the excluded files
