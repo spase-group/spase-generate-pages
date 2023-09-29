@@ -178,7 +178,7 @@
 	<ul class="listview">
 		<li class="list-divider">{{title}}</li>
 		{{#each entries}}
-		<li><a href="{{this.basename}}{{#if this.isDir}}/{{../listing}}{{/if}}">{{this.basename}}<span class="arrow-right"></span></a></li>
+		<li><a href="{{this.basename}}{{#if this.isDir}}/{{../listing}}{{/if}}">{{this.label}}<span class="arrow-right"></span></a></li>
 		{{/each}}
 	</ul>
 	</div> <!-- content-primary -->
