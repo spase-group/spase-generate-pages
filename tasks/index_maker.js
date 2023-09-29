@@ -99,6 +99,11 @@ module.exports = function (grunt) {
 					var info = [];
 					var fileList = [];
 					var dirList = [];
+
+          // Pulling in descriptive titles of naming authority
+          const fs = require('fs');
+          var na_json = fs.readFileSync('naming_auths.json', 'utf-8');
+          var na_for = JSON.parse(na_json).naming_auths;
 					
 					// var entries = grunt.file.expand({filter: function(src) { return (src != options.listing); } }, path.join(filename, "*") );	
 					grunt.verbose.writeln("Processing " + filename);
@@ -113,9 +118,16 @@ module.exports = function (grunt) {
 						
 						var pathname = path.join(filename, entryName);
 						var stat = fs.statSync(pathname);
+						
+						var entry_label = path.basename(entryName);
+						
+						if (na_for.hasOwnProperty(entry_label)) {
+						  entry_label = na_for[entry_label].title;
+						}
 
 						var tempInfo = {
 							basename: path.basename(entryName),
+							label: entry_label,
 							stem: path.basename(entryName, path.extname(entryName)),
 							mtime: stat.mtime,
 							size: stat.size,
