@@ -126,7 +126,7 @@ module.exports = function (grunt) {
 						
 						var entry_label = path.basename(entryName);
 						if (na_for.hasOwnProperty(entry_label)) {
-						  entry_label = na_for[entry_label].title;
+						  entry_label = entry_label + ' - ' + na_for[entry_label].title;
 						}
 
 						var tempInfo = {
