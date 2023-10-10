@@ -346,7 +346,16 @@ a.xml-logo:hover {
 				<ul class="list">
 				<xsl:for-each select="./*/sp:AccessInformation">
 					<xsl:for-each select="./sp:AccessURL">
-						<li class="list"><a target="_blank" href="{./sp:URL}"><xsl:if test="./sp:Style"><xsl:value-of select="./sp:Style" />: </xsl:if><xsl:value-of select="./sp:Name" /></a></li>
+						<li class="list"><a target="_blank" href="{./sp:URL}"><xsl:if test="./sp:Style"><xsl:value-of select="./sp:Style" />: </xsl:if>
+						<xsl:choose>
+						  <xsl:when test="./sp:Name">
+						    <xsl:value-of select="./sp:Name" />
+						  </xsl:when>
+              <xsl:otherwise>
+						    <xsl:value-of select="./sp:Format" />
+              </xsl:otherwise>
+						</xsl:choose>
+					</a></li>
 					</xsl:for-each>
 				</xsl:for-each>
 				</ul>
