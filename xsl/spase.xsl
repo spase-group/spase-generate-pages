@@ -352,7 +352,7 @@ a.xml-logo:hover {
 						    <xsl:value-of select="./sp:Name" />
 						  </xsl:when>
               <xsl:otherwise>
-						    <xsl:value-of select="./sp:Format" />
+						    <xsl:value-of select="../sp:Format" />
               </xsl:otherwise>
 						</xsl:choose>
 					</a></li>
