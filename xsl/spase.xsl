@@ -34,10 +34,6 @@
     },
 </xsl:when>
 <xsl:otherwise>
-    "creator":{
-       "@type": "Organization",
-           "name": "IHDEA"
-    },
     "identifier": "<xsl:value-of select="./sp:Spase/*/sp:ResourceID" />",
 </xsl:otherwise>
 </xsl:choose>
@@ -401,7 +397,7 @@ a.xml-logo:hover {
 				<xsl:with-param name="input" select="./*/sp:ResourceID"/>
 			</xsl:call-template>
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
-			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.</xsl:if>
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a> (<a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a>).</xsl:if>
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			</p>
 			</xsl:if>
