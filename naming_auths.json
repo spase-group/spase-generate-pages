@@ -20,8 +20,8 @@
       "repository":"https:\/\/github.com\/hpde\/CNES"
     },
     "CSA": {
-      "title":"Canadian Space Agency (CSA)",
-      "description":"Assigns resource IDs for data registered in the Canadian Space Agency (CSA).",
+      "title":"Cluster Science Archive (CSA)",
+      "description":"Assigns resource IDs for data registered in the Cluster Science Archive (CSA).",
       "website":"https:\/\/www.asc-csa.gc.ca\/",
       "repository":"https:\/\/github.com\/hpde\/CSA"
     },
