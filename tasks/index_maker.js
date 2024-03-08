@@ -108,6 +108,9 @@ module.exports = function (grunt) {
 					
 					// var entries = grunt.file.expand({filter: function(src) { return (src != options.listing); } }, path.join(filename, "*") );	
 					grunt.verbose.writeln("Processing " + filename);
+					//grunt.verbose.writeln("fcount " + filename.split('/').length);
+					var depth = filename.split('/').length;
+					var is_top_level = (depth < 3) ? true : false; //  pages/CSA: depth = 2
 					var parentFolder = path.basename(filename);					
 					var entries = fs.readdirSync(filename);
 					// SMWT telecon request to ignore case in index listings 2023/09/07
@@ -125,7 +128,8 @@ module.exports = function (grunt) {
 						var stat = fs.statSync(pathname);
 						
 						var entry_label = path.basename(entryName);
-						if (na_for.hasOwnProperty(entry_label)) {
+						if (is_top_level && na_for.hasOwnProperty(entry_label)) {
+						  // Only sub this in for Naming Auth level - CSA can mean different things
 						  entry_label = entry_label + ' - ' + na_for[entry_label].title;
 						}
 
