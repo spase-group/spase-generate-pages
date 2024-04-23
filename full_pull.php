@@ -21,7 +21,7 @@ foreach ($NAMING_AUTHS as $folder) {
     chdir ($root);
     $git_repo = $ALL_AUTH_INFO[$folder]['repository'];
     $clone = print `git clone $git_repo`;
-    file_put_contents ($logfile, $clone, FILE_APPEND);
+//    file_put_contents ($logfile, $clone, FILE_APPEND);
   }
   chdir ($here);
 
@@ -29,7 +29,7 @@ foreach ($NAMING_AUTHS as $folder) {
 
   $result = `git pull`;
 
-  file_put_contents ($logfile, $result, FILE_APPEND);
+//  file_put_contents ($logfile, $result, FILE_APPEND);
 
   print "$result\n";
 }
