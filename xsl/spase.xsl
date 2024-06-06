@@ -397,8 +397,9 @@ a.xml-logo:hover {
 				<xsl:with-param name="input" select="./*/sp:ResourceID"/>
 			</xsl:call-template>
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
-			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a> (<a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a>).</xsl:if>
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.<br/>
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI">(<a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a>)</xsl:if>
 			</p>
 			</xsl:if>
 			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
