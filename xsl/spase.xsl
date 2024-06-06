@@ -398,7 +398,7 @@ a.xml-logo:hover {
 			</xsl:call-template>
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
 			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.<br/>
-			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
+			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.<br/>
 			<xsl:if test="./*/sp:ResourceHeader/sp:DOI">(<a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a>)</xsl:if>
 			</p>
 			</xsl:if>
