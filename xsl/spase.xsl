@@ -362,32 +362,6 @@ a.xml-logo:hover {
 			<xsl:if test="./*/sp:ResourceHeader/sp:PublicationInfo">
 			<p class="author"><script>
 			  var authors='<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:Authors" />'; 
-//			  var namefixed = authors.replace(/, (.)[^,; ]*/g, ", $1."); 
-//			  var almost = namefixed.replace(/;([^;]*)$/, ' and $1'); 
-//			  document.write(almost.replace(/;[ ]*/g, ", "));
- /*
-        var names = authors.split(';');
-        var fmt_names = [];		
-        var n = 0;	 
-			  names.forEach (function (name) {
-			    var this_name = '';
-			    if (n == names.length - 1) {
-			      this_name += 'and ';
-			    }
-			    // alter the current name
-			    var name_parts = name.split(',');
-			    this_name += name_parts.shift() + ', ';
-			    
-			    name_parts.forEach(function (npart) {
-            var c = npart.trim().slice(0, 1);
-			      this_name += c + '.';
-			    });
-			    
-          fmt_names.push(this_name);
-          n++;
-			  });
-			  document.write(fmt_names.join(', '));
-*/
 			  document.write(authors);
 
 			 </script>
@@ -397,15 +371,17 @@ a.xml-logo:hover {
 				<xsl:with-param name="input" select="./*/sp:ResourceID"/>
 			</xsl:call-template>
 			<xsl:value-of select="./*/sp:ResourceHeader/sp:PublicationInfo/sp:PublishedBy" />. 
-			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>.<br/>
-			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.<br/>
-			<xsl:if test="./*/sp:ResourceHeader/sp:DOI">(<a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a>)</xsl:if>
-			</p>
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>. 
+			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
+			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><br/><a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a><br/>
+			Dataset citations should append the date that you retrieved the data in the form: "<script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>"<br/>
+			</xsl:if>
 			</xsl:if>
 			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
 			<p><xsl:apply-templates select="./*/sp:ResourceHeader/sp:Description"></xsl:apply-templates></p>
 		
-		</div>
+		</p>
+		</xsl:if>
 		</div>
 		
 		<div>	<!-- formats -->
@@ -446,6 +422,7 @@ a.xml-logo:hover {
 	   </xsl:choose>			
     </xsl:for-each>
 	</div>
+	</div> <!-- abstract -->
 	</div> <!-- spase -->
 </xsl:template>
 
