@@ -612,8 +612,47 @@ Call with the following:
 		<xsl:when test="contains($input, 'Catalog')">
 			[Data set].
 		</xsl:when>
+		<xsl:when test="contains($input, 'Document')">
+			[Document].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Service')">
+			[Service].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Instrument')">
+			[Instrument].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Observatory')">
+			[Observatory].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Registry')">
+			[Registry].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Repository')">
+			[Repository].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Annotation')">
+			[Annotation].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Software')">
+			[Software].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Collection')">
+			[Collection].
+		</xsl:when>
+		<xsl:when test="contains($input, 'Model')">
+			[Model].
+		</xsl:when>
+		<xsl:when test="contains($input, 'ModelRun')">
+			[ModelRun].
+		</xsl:when>
+		<xsl:when test="contains($input, 'DisplayOutput')">
+			[ModelOutput].
+		</xsl:when>
+		<xsl:when test="contains($input, 'NumericalOutput')">
+			[ModelOutput].
+		</xsl:when>
 		<xsl:otherwise>
-			.
+.
 		</xsl:otherwise>
 	</xsl:choose>
 </xsl:template>
