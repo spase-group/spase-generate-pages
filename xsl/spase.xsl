@@ -374,7 +374,7 @@ a.xml-logo:hover {
 			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><a href="{./*/sp:ResourceHeader/sp:DOI}"><xsl:value-of select="./*/sp:ResourceHeader/sp:DOI" /></a>. 
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			<xsl:if test="./*/sp:ResourceHeader/sp:DOI"><br/><a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">CiteAs link</a><br/>
-			Dataset citations should append the date that you retrieved the data in the form: "<script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>"<br/>
+			Proper citations should include the "Accessed on date" as shown at the end of the reference above.<br/>
 			</xsl:if>
 			</xsl:if>
 			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
