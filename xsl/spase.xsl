@@ -375,9 +375,7 @@ a.xml-logo:hover {
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			<br/>
 			<br/>
-			Proper citations should include the "Accessed on date" as shown at the end of the reference above.<br/>
-			<br/>
-			<a href="https://citation.crosscite.org/format?doi={./*/sp:ResourceHeader/sp:DOI}&amp;style=bibtex&amp;lang=en-US">Citation in BibTex Format</a>. Citations should include the "Accessed on date" as shown above.
+			Note: Proper references, including those in <a href="https://citation.crosscite.org/format?doi={./*/sp:ResourceHeader/sp:DOI}&amp;style=bibtex&amp;lang=en-US">BibTex</a> or <a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">other formats</a>, should include the "Accessed on date" as shown above to identify the version of the resource being cited in a given publication.
 			</xsl:if>
 			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
 			<p><xsl:apply-templates select="./*/sp:ResourceHeader/sp:Description"></xsl:apply-templates></p>
