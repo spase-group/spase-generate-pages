@@ -377,11 +377,11 @@ a.xml-logo:hover {
 			<br/>
 			Note: Proper references, including those in <a href="https://citation.crosscite.org/format?doi={./*/sp:ResourceHeader/sp:DOI}&amp;style=bibtex&amp;lang=en-US">BibTex</a> or <a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">other formats</a>, should include the "Accessed on date" as shown above to identify the version of the resource being cited in a given publication.
 			</xsl:if>
-			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
-			<p><xsl:apply-templates select="./*/sp:ResourceHeader/sp:Description"></xsl:apply-templates></p>
 		
 		</p>
 		</xsl:if>
+			<p><div class="term">ResourceID</div><div class="definition"><xsl:value-of select="./*/sp:ResourceID" /></div></p>
+			<p><xsl:apply-templates select="./*/sp:ResourceHeader/sp:Description"></xsl:apply-templates></p>
 		</div>
 		
 		<div>	<!-- formats -->
