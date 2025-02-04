@@ -375,7 +375,14 @@ a.xml-logo:hover {
 			Accessed on <script>var monthName=new Array("January","February","March","April","May","June","July","August","September","October","November","December"); var today = new Date(); document.write(today.getFullYear()+'-'+monthName[today.getMonth()]+'-'+today.getDate()); </script>.
 			<br/>
 			<br/>
-			Note: Proper references, including those in <a href="https://citation.crosscite.org/format?doi={./*/sp:ResourceHeader/sp:DOI}&amp;style=bibtex&amp;lang=en-US">BibTex</a> or <a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">other formats</a>, should include the "Accessed on date" as shown above to identify the version of the resource being cited in a given publication.
+			<xsl:variable name="bibtexLink">
+				<xsl:call-template name="string-replace-all">
+					<xsl:with-param name="replace" select="'https://doi.org/'" />
+					<xsl:with-param name="with" select="''" />
+					<xsl:with-param name="text" select="./*/sp:ResourceHeader/sp:DOI"/>
+				</xsl:call-template>  
+			</xsl:variable>	
+			Note: Proper references, including those in <a href="https://citation.crosscite.org/format?doi={$bibtexLink}&amp;style=bibtex&amp;lang=en-US">BibTex</a> or <a href="https://citeas.org/cite/{./*/sp:ResourceHeader/sp:DOI}">other formats</a>, should include the "Accessed on date" as shown above to identify the version of the resource being cited in a given publication.
 			</xsl:if>
 		
 		</p>
