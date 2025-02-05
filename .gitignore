@@ -9,7 +9,7 @@ _gh_pages
 metadata
 metadata.src
 metadata.test
-pages
+#pages
 temp
 
 # OS or Editor folders
