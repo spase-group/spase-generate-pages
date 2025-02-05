@@ -15,4 +15,6 @@ tar -v -c -f - --exclude .git --exclude .github . | (cd ../${DEST}; tar -x -f -)
 cd ..
 
 # Generate new pages and content
+grunt -v copy_op
+grunt -v convert_op
 grunt -v
