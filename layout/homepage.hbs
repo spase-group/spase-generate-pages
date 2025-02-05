@@ -3,7 +3,7 @@
 <head>
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>{{title}}</title>
+   <title>{{{title}}}</title>
    <style>
 	body {
 		padding: 0;
@@ -172,7 +172,7 @@
 <body>
 	<div class="page">
 	<div class="header">
-		<div class="middle">{{title}}</div>
+		<div class="middle">{{{title}}}</div>
 	</div> <!-- /header -->
 	
 	<div class="content">
@@ -180,7 +180,7 @@
 	<div class="column">
 	<!-- content -->
 	<ul class="listview">
-		<li class="list-divider">{{title}}</li>
+		<li class="list-divider">{{{title}}}</li>
 		{{#each entries}}
 		<li><a href="{{this.basename}}{{#if this.isDir}}/{{../listing}}{{/if}}">{{this.label}}<span class="arrow-right"></span></a></li>
 		{{/each}}
