@@ -202,4 +202,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('html', ['xsltproc', 'assemble', 'clean:temp']);
 	grunt.registerTask('listing', ['index_maker:index']);
 	grunt.registerTask('homepage', ['index_maker:homepage']);
+	grunt.registerTask('convert_op', ['convert']);
+	grunt.registerTask('copy_op', ['copy']);
 };
