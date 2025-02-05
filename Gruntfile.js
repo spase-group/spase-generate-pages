@@ -61,7 +61,6 @@ module.exports = function(grunt) {
 			layout: 	grunt.option('layout') || "layout/default.hbs",
 			title: 		grunt.option('title') || "HPDE.io <a href='https://spase-group.org/'>SPASE</a> landing pages.",
 		},
-//			title: 		grunt.option('title') || "HPDE.io <a href='https://spase-group.org/'>SPASE</a> landing pages.",
 		
 		// Defined tasks
 		
