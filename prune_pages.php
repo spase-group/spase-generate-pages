@@ -34,21 +34,20 @@ foreach ($files as $f) {
     }
   }
   if ($ignore) {
-//print "skipping $f\n";
     continue;
   }
 
   // See if this landing page still has a descriptor in the Spase repository
   $descriptor = str_replace ($PAGES_ROOT, $REPO_ROOT, $f);
   $descriptor = str_replace ('.html', '.xml', $descriptor);
-//print "$descriptor\n";
   if (file_exists ($descriptor)) {
-//print "$descriptor exists\n";
     continue;
   }
   $json = str_replace ('.html', '.json', $f);
   $xml = str_replace ('.html', '.xml', $f);
-  print "deleting $f\n$json\n$xml\n";
-  
+  print "deleting $f\n $json\n $xml\n";
+  unlink ($f);
+  unlink ($json);
+  unlink ($xml);
 }
 
