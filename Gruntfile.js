@@ -137,7 +137,7 @@ module.exports = function(grunt) {
 		sitemap_xml: {
 			build: {
 				options: {
-					siteRoot: 'https://hpde.io',
+					siteRoot: 'https://hpde1.org',
 					stripIndex: false,
 					priority: 0.8,
 					changeFreq: 'daily',

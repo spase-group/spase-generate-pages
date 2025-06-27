@@ -83,7 +83,7 @@ module.exports = function (grunt) {
             if (f.cwd) {
                 cwd = f.cwd;
             }
-			// grunt.verbose.writeln(JSON.stringify(f, null, 3));
+	    grunt.verbose.writeln(JSON.stringify(f, null, 3));
 
             f.src.map(function (filename) {
 				// Check if file name is to be excluded. Grunt should do this but in some cases it's not perfect.
@@ -99,12 +99,14 @@ module.exports = function (grunt) {
 					var info = [];
 					var fileList = [];
 					var dirList = [];
-	
+
+grunt.verbose.writeln('at naming_auths');	
 	        // Get descriptive labels for Naming Authority index page
 	        var fs = require('fs');
 	        var na_json = fs.readFileSync('naming_auths.json', 'utf8');
 	        var na_obj = JSON.parse(na_json);
 	        var na_for = (na_obj.hasOwnProperty('naming_auths')) ? na_obj['naming_auths'] : {};
+grunt.verbose.writeln('past naming_auths');	
 					
 					// var entries = grunt.file.expand({filter: function(src) { return (src != options.listing); } }, path.join(filename, "*") );	
 					grunt.verbose.writeln("Processing " + filename);

@@ -7,7 +7,7 @@
 
 $root = __DIR__ . '/metadata.src';
 
-$na_set = `curl https://hpde.io/naming_auths.json`;
+$na_set = `curl https://hpde1.org/naming_auths.json`;
 
 $list = json_decode ($na_set, JSON_OBJECT_AS_ARRAY);
 $ALL_AUTH_INFO = $list['naming_auths'];

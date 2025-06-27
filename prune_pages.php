@@ -11,6 +11,9 @@
 //define ('PAGES_ROOT', 'pages');
 //define ('REPO_ROOT', 'metadata.src');
 
+$t1 = date ('Y-m-d h:i:s');
+print "prune init $t1\n";
+
 $PAGES_ROOT = 'pages';
 $REPO_ROOT = 'metadata.src';
 
@@ -50,4 +53,7 @@ foreach ($files as $f) {
   unlink ($json);
   unlink ($xml);
 }
+
+$t2 = date ('Y-m-d h:i:s');
+print "prune complete $t2\n";
 
