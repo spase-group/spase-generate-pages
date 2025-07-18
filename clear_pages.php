@@ -10,7 +10,7 @@ $root = __DIR__ . '/pages';
 
 $logfile = '/home/ubuntu//logs/full_pull.log';
 
-$na_set = `curl https://hpde1.org/naming_auths.json`;
+$na_set = `curl https://spase-metadata.org/naming_auths.json`;
 
 $list = json_decode ($na_set, JSON_OBJECT_AS_ARRAY);
 $ALL_AUTH_INFO = $list['naming_auths'];
