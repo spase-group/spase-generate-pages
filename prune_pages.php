@@ -54,6 +54,23 @@ foreach ($files as $f) {
   unlink ($xml);
 }
 
+/*
+ * Clean out empty list pages (descriptor group parents).
+ * If the landing page link format changes this may need to be adjusted.
+ */
+
+$found = `find $PAGES_ROOT -name index.html`;
+$all_indices = explode ("\n", $found);
+foreach ($all_indices as $f) {
+  if (strlen ($f) < 1) {continue;}
+  $here = __DIR__;
+  $html = file_get_contents ("$here/$f");
+  if (strpos($html, 'target=') === false) {
+    unlink($f);
+  }
+}
+
+
 $t2 = date ('Y-m-d h:i:s');
 print "prune complete $t2\n";
 

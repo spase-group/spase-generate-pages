@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 			listing: 	grunt.option('listing') || "layout/listing.hbs",
 			homepage: 	grunt.option('homepage') || "layout/homepage.hbs",
 			layout: 	grunt.option('layout') || "layout/default.hbs",
-			title: 		grunt.option('title') || "HPDE.io <a href='https://spase-group.org/'>SPASE</a> landing pages.",
+			title: 		grunt.option('title') || "spase-metadata.org <a href='https://spase-group.org/'>SPASE</a> landing pages.",
 		},
 		
 		// Defined tasks

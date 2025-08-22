@@ -6,6 +6,8 @@
  * This uses the https://hpde.io/naming_auths.json list of naming authorities.
  */
 
+die ("Are you sure about this? prune_pages.php is the safer way to clean out zombie landing pages.");
+
 $root = __DIR__ . '/pages';
 
 $logfile = '/home/ubuntu//logs/full_pull.log';
