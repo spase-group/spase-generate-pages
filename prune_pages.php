@@ -64,9 +64,11 @@ $all_indices = explode ("\n", $found);
 foreach ($all_indices as $f) {
   if (strlen ($f) < 1) {continue;}
   $here = __DIR__;
-  $html = file_get_contents ("$here/$f");
+  $target = "$here/$f";
+  $html = file_get_contents ($target);
   if (strpos($html, 'target=') === false) {
-    unlink($f);
+    print "Deleting $target\n";
+    unlink($target);
   }
 }
 
