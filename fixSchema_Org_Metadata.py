@@ -97,13 +97,18 @@ def main(updateList: str) -> None:
                     # also add signposting link needed for FUJI recognition
                     signposting_link = head_tag.find('link', attrs={"rel": "describedby", "type": "application/xml"})
                     if not signposting_link:
-                        # 1. Locate the specific target meta tag
+                        # 1. Locate the specific target meta tag (only used when landing pages use the older spase.xsl found in tmp/)
                         target_meta = head_tag.find('meta', attrs={"http-equiv": "Content-Type",
                             "content": "text/html; charset=utf-8"})
                         # account for incorrect casing
                         if not target_meta:
                             target_meta = head_tag.find('meta', attrs={"http-equiv": "Content-Type",
                                 "content": "text/html; charset=UTF-8"})
+                        # check for meta tag with just the charset attribute (newer spase.xsl uses this one)
+                        if not target_meta:
+                            target_meta = head_tag.find('meta', attrs={"charset": "utf-8"})
+                        if not target_meta:
+                            target_meta = head_tag.find('meta', attrs={"charset": "UTF-8"})
                         # printout message if still not found
                         if not target_meta:
                             print("meta tag not found in head")
